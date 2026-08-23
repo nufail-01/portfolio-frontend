@@ -9,6 +9,33 @@ const Button = ({ children, href = '#', variant = 'primary', className = '', isR
     ghost: 'border border-border text-text-primary hover:border-accent/50',
   }
 
+  // 'brutalist' skips the shared `base`/`variants` styling above and relies
+  // entirely on the .btn-brutalist CSS in index.css (offset shadow, shine
+  // sweep, and press-in effect — can't be expressed as plain utilities).
+  if (variant === 'brutalist') {
+    const classes = `btn-brutalist ${className}`
+    const content = (
+      <span className="btn-brutalist-text">
+        {children}
+        <span aria-hidden="true" className="ml-2">→</span>
+      </span>
+    )
+
+    if (isRoute) {
+      return (
+        <Link to={href} className={classes}>
+          {content}
+        </Link>
+      )
+    }
+
+    return (
+      <a href={href} className={classes}>
+        {content}
+      </a>
+    )
+  }
+
   const classes = `${base} ${variants[variant]} ${className}`
   const content = (
     <>

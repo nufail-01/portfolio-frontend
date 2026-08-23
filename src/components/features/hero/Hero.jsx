@@ -1,3 +1,4 @@
+import { useState, useEffect, useRef } from "react";
 import Container from "../../ui/layout-primitives/Container";
 import Badge from "../../ui/badges/Badge";
 import Button from "../../ui/buttons/Button";
@@ -8,25 +9,149 @@ import Button from "../../ui/buttons/Button";
 //   { label: "BUILDING IN PUBLIC", dot: "bg-orange-500" },
 // ];
 
-const STATS = [
-  { value: "4+ MONTHS", label: "Professional Experience" },
-  { value: "1+ YEARS", label: "Building & Learning" },
-  { value: "10+", label: "Projects Shipped" },
+const ROLES = [
+  "FRONTEND DEVELOPER",
+  "CREATIVE DEVELOPER",
+  "VIDEO EDITOR",
+  "UI/UX DESIGNER",
 ];
 
-const Hero = () => {
+const STATS = [
+  { value: 4, suffix: "+", unit: "MONTHS", label: "Professional Experience" },
+  { value: 1, suffix: "+", unit: "YEARS", label: "Building & Learning" },
+  { value: 10, suffix: "+", unit: "", label: "Projects Shipped" },
+];
+
+const TYPE_SPEED = 60; // ms per character while typing
+const DELETE_SPEED = 35; // ms per character while deleting
+const HOLD_TIME = 1200; // ms to pause once fully typed
+
+const COUNT_DURATION = 2000; // ms — how long each number takes to reach its target
+
+const useTypewriter = (words) => {
+  const [wordIndex, setWordIndex] = useState(0);
+  const [displayText, setDisplayText] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  useEffect(() => {
+    const currentWord = words[wordIndex];
+
+    // Fully typed — pause, then start deleting
+    if (!isDeleting && displayText === currentWord) {
+      const holdTimeout = setTimeout(() => setIsDeleting(true), HOLD_TIME);
+      return () => clearTimeout(holdTimeout);
+    }
+
+    // Fully deleted — move to next word
+    if (isDeleting && displayText === "") {
+      setIsDeleting(false);
+      setWordIndex((prev) => (prev + 1) % words.length);
+      return;
+    }
+
+    const timeout = setTimeout(
+      () => {
+        setDisplayText((prev) =>
+          isDeleting
+            ? currentWord.slice(0, prev.length - 1)
+            : currentWord.slice(0, prev.length + 1),
+        );
+      },
+      isDeleting ? DELETE_SPEED : TYPE_SPEED,
+    );
+
+    return () => clearTimeout(timeout);
+  }, [displayText, isDeleting, wordIndex, words]);
+
+  return displayText;
+};
+
+// Counts up from 0 to `target` once, then stops — no loop.
+// `startWhen` lets us trigger it only when the stats section is actually visible.
+const useCountUp = (target, duration = COUNT_DURATION, startWhen = true) => {
+  const [count, setCount] = useState(0);
+  const hasRun = useRef(false);
+
+  useEffect(() => {
+    if (!startWhen || hasRun.current) return;
+    hasRun.current = true;
+
+    let startTime = null;
+    let frameId;
+
+    const step = (timestamp) => {
+      if (startTime === null) startTime = timestamp;
+      const progress = Math.min((timestamp - startTime) / duration, 1);
+
+      // ease-out — starts fast, settles gently into the final number
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setCount(Math.round(eased * target));
+
+      if (progress < 1) {
+        frameId = requestAnimationFrame(step);
+      } else {
+        setCount(target); // snap exactly to target, no rounding drift
+      }
+    };
+
+    frameId = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(frameId);
+  }, [target, duration, startWhen]);
+
+  return count;
+};
+
+// Renders one stat with its own count-up instance
+const StatItem = ({ stat, startWhen }) => {
+  const count = useCountUp(stat.value, COUNT_DURATION, startWhen);
+
   return (
-    //  old
-    // <section className="relative overflow-hidden py-20 md:py-28">
-    
-    // new
+    <div>
+      <p className="font-display text-5xl md:text-6xl">
+        {count}
+        {stat.suffix} {stat.unit}
+      </p>
+      <p className="mt-2 font-mono text-sm tracking-wide text-text-muted">
+        {stat.label}
+      </p>
+    </div>
+  );
+};
+
+const Hero = () => {
+  const roleText = useTypewriter(ROLES);
+  const statsRef = useRef(null);
+  const [statsInView, setStatsInView] = useState(false);
+
+  // Trigger the count-up only once the stats row scrolls into view,
+  // so it doesn't just fire instantly on page load off-screen.
+  useEffect(() => {
+    const el = statsRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setStatsInView(true);
+          observer.disconnect(); // only need this once
+        }
+      },
+      { threshold: 0.3 },
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
     <section className="relative overflow-hidden py-16 md:px-8 md:py-20 lg:px-12">
       <Container>
         {/* Eyebrow */}
         <div className="mb-6 flex items-center gap-3">
           <span className="h-px w-8 bg-accent" />
           <span className="font-mono text-sm tracking-widest text-accent">
-            FRONTEND ENGINEER
+            {roleText}
+            <span className="ml-0.5 inline-block h-[1em] w-[2px] animate-pulse bg-accent align-middle" />
           </span>
         </div>
 
@@ -73,7 +198,7 @@ const Hero = () => {
             that go beyond the prototype.
           </p>
 
-          <Button href="#projects">View Work</Button>
+          <Button href="#projects" variant="brutalist">View Work</Button>
         </div>
 
         {/* Divider */}
@@ -81,14 +206,12 @@ const Hero = () => {
 
         {/* Stats */}
 
-        <div className="flex flex-wrap gap-x-24 gap-y-8 border-border pt-10">
+        <div
+          ref={statsRef}
+          className="flex flex-wrap gap-x-24 gap-y-8 border-border pt-10"
+        >
           {STATS.map((stat) => (
-            <div key={stat.label}>
-              <p className="font-display text-5xl md:text-6xl">{stat.value}</p>
-              <p className="mt-2 font-mono text-sm tracking-wide text-text-muted">
-                {stat.label}
-              </p>
-            </div>
+            <StatItem key={stat.label} stat={stat} startWhen={statsInView} />
           ))}
         </div>
       </Container>

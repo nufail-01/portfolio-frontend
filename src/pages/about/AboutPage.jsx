@@ -2,6 +2,7 @@ import Navbar from '../../components/layout/navbar/Navbar'
 import Footer from '../../components/layout/footer/Footer'
 import Badge from '../../components/ui/badges/Badge'
 import Container from '../../components/ui/layout-primitives/Container'
+import Button from '../../components/ui/buttons/Button'
 // import BackLink from "../components/common/BackLink";
 import { ABOUT_PAGE_CONTENT } from "../../constants/about/aboutPage";
 import WorkPrincipleCard from '../../components/features/about/WorkPrincipleCard'
@@ -51,23 +52,18 @@ const AboutPage = () => {
               ))}
 
               <div className="mt-10 flex items-center gap-6">
-                <a
-                  href="/contact"
-                  className="inline-flex items-center gap-2 rounded-md bg-accent px-5 py-3 font-mono text-sm font-medium text-bg transition-transform hover:-translate-y-0.5"
-                >
+                <Button href="/contact" isRoute variant="brutalist">
                   GET IN TOUCH
-                  <span aria-hidden="true">→</span>
-                </a>
+                </Button>
 
-                <a
+                <Button
                   href={ABOUT_PAGE_CONTENT.resumeUrl}
+                  variant="brutalist"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 font-mono text-sm text-text-muted transition-colors hover:text-text-primary"
                 >
                   RESUME
-                  <span aria-hidden="true">↗</span>
-                </a>
+                </Button>
               </div>
             </div>
 

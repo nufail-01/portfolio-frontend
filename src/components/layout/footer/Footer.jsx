@@ -30,9 +30,7 @@ const Footer = () => {
   };
 
   return (
-    // old
-    // <footer>
-    // new
+    
     <footer className="md:px-8">
       <Container>
         <div className="grid grid-cols-1 gap-12 py-16 md:grid-cols-[2fr_1px_1fr_1px_1fr]">

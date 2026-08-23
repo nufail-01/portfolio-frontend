@@ -146,3 +146,80 @@ html {
   transition: transform 0.25s ease-out, opacity 0.2s ease, width 0.2s ease;
   background: color-mix(in srgb, var(--color-accent) 8%, transparent);
 }
+
+/* ================================
+   Brutalist button variant
+   Adapted from a Uiverse.io concept — swapped the brand colors for
+   this site's palette (accent green shadow/shine instead of blue,
+   no logo grid since it's not a "download from X" button).
+   Custom CSS (not Tailwind utilities) because the shine-sweep
+   animation and offset box-shadow press effect aren't expressible
+   as plain utility classes.
+================================= */
+
+.btn-brutalist {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 0.875rem;
+  border: 3px solid var(--color-accent);
+  outline: 3px solid var(--color-bg);
+  box-shadow: 6px 6px 0 var(--color-accent-dim);
+  transition: transform 0.1s ease-out, box-shadow 0.1s ease-out, background-color 0.1s ease-out, color 0.1s ease-out;
+}
+
+.btn-brutalist::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(245, 245, 240, 0.35), transparent);
+  opacity: 0;
+  pointer-events: none;
+}
+
+@keyframes brutalist-shine {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+.btn-brutalist:hover {
+  transform: translate(-4px, -4px);
+  box-shadow: 10px 10px 0 var(--color-accent);
+}
+
+.btn-brutalist:hover::before {
+  opacity: 1;
+  animation: brutalist-shine 1.4s infinite;
+}
+
+.btn-brutalist:active {
+  transform: translate(4px, 4px);
+  box-shadow: 0 0 0 var(--color-accent-dim);
+  background-color: var(--color-accent);
+  color: var(--color-bg);
+  border-color: var(--color-bg);
+}
+
+.btn-brutalist .btn-brutalist-text {
+  display: inline-flex;
+  align-items: center;
+  transition: transform 0.2s ease-out;
+}
+
+.btn-brutalist:hover .btn-brutalist-text {
+  transform: skew(-5deg);
+}
+
+.btn-brutalist:active .btn-brutalist-text {
+  transform: skew(5deg);
+}
