@@ -21,20 +21,14 @@ import ProtectedRoute from './admin/components/auth/ProtectedRoute'
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
+      <SmoothScroll>
+        <CustomCursor />
+        <Routes>
 
-        {/* ================================
-            PUBLIC PORTFOLIO (smooth scroll + custom cursor enabled)
-        ================================= */}
+          {/* ================================
+              PUBLIC PORTFOLIO
+          ================================= */}
 
-        <Route
-          element={
-            <SmoothScroll>
-              <CustomCursor />
-              <Outlet />
-            </SmoothScroll>
-          }
-        >
           <Route
             path="/"
             element={
@@ -79,46 +73,46 @@ function App() {
               </div>
             }
           />
-        </Route>
 
-        {/* ================================
-            ADMIN LOGIN
-        ================================= */}
+          {/* ================================
+              ADMIN LOGIN
+          ================================= */}
 
-        <Route
-          path="/admin/login"
-          element={<AdminLogin />}
-        />
-
-        {/* ================================
-            PROTECTED ADMIN PANEL
-        ================================= */}
-
-        <Route element={<ProtectedRoute />}>
           <Route
-            path="/admin"
-            element={<AdminLayout />}
-          >
-            <Route index element={<Dashboard />} />
+            path="/admin/login"
+            element={<AdminLogin />}
+          />
 
-            <Route
-              path="projects"
-              element={<Projects />}
-            />
+          {/* ================================
+              PROTECTED ADMIN PANEL
+          ================================= */}
 
+          <Route element={<ProtectedRoute />}>
             <Route
-              path="contacts"
-              element={<Contacts />}
-            />
+              path="/admin"
+              element={<AdminLayout />}
+            >
+              <Route index element={<Dashboard />} />
 
-            <Route
-              path="skills"
-              element={<Skills />}
-            />
+              <Route
+                path="projects"
+                element={<Projects />}
+              />
+
+              <Route
+                path="contacts"
+                element={<Contacts />}
+              />
+
+              <Route
+                path="skills"
+                element={<Skills />}
+              />
+            </Route>
           </Route>
-        </Route>
 
-      </Routes>
+        </Routes>
+      </SmoothScroll>
     </BrowserRouter>
   )
 }
