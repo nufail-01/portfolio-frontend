@@ -39,7 +39,7 @@ const SocialSidebar = () => {
   const [hovered, setHovered] = useState(null);
 
   return (
-    <div className="fixed bottom-10 right-5 z-40 hidden flex-col gap-3">
+   <div className="fixed bottom-10 right-5 z-40 flex flex-col gap-3">
       {SOCIALS.map((social) => (
         <a
           key={social.name}
