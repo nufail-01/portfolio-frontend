@@ -1,3 +1,5 @@
+import nufailImage from '../../assets/images/about/nufail.jpeg'
+
 export const ABOUT_PAGE_CONTENT = {
   paragraphs: [
     {
@@ -13,6 +15,6 @@ export const ABOUT_PAGE_CONTENT = {
       rest: "Beyond coding, I explore system design, scalable architecture, and smarter ways to build products.",
     },
   ],
-  image: './assets/images/about/nufail.jpeg',
+  image: nufailImage,
   resumeUrl: '/resume.pdf',
 }

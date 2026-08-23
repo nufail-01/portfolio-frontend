@@ -18,7 +18,7 @@
 //         </div>
 
 //         {/* Heading */}
-//         <h2 className="font-display text-6xl leading-[0.85] tracking-tight md:text-7xl">
+//         <h2 className="font-display text-6xl leading-[1.05] tracking-tight md:text-7xl md:leading-[0.85]">
 //           MY <span className="text-outline">SKILLS</span>
 //         </h2>
 
@@ -94,7 +94,7 @@ const Skills = () => {
         </div>
 
         {/* Heading */}
-        <h2 className="font-display text-6xl leading-[0.85] tracking-tight md:text-7xl">
+        <h2 className="font-display text-6xl leading-[1.05] tracking-tight md:text-7xl md:leading-[0.85]">
           MY <span className="text-outline">SKILLS</span>
         </h2>
 

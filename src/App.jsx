@@ -1,4 +1,7 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom'
+
+import SmoothScroll from './components/providers/smoothscroll/SmoothScroll'
+import CustomCursor from './components/ui/layout-primitives/CustomCursor'
 
 import Home from './pages/home/Home'
 import ProjectsPage from './pages/projects/ProjectsPage'
@@ -21,53 +24,62 @@ function App() {
       <Routes>
 
         {/* ================================
-            PUBLIC PORTFOLIO
+            PUBLIC PORTFOLIO (smooth scroll + custom cursor enabled)
         ================================= */}
 
         <Route
-          path="/"
           element={
-            <div className="min-h-screen bg-bg text-text-primary">
-              <Home />
-            </div>
+            <SmoothScroll>
+              <CustomCursor />
+              <Outlet />
+            </SmoothScroll>
           }
-        />
+        >
+          <Route
+            path="/"
+            element={
+              <div className="min-h-screen bg-bg text-text-primary">
+                <Home />
+              </div>
+            }
+          />
 
-        <Route
-          path="/projects"
-          element={
-            <div className="min-h-screen bg-bg text-text-primary">
-              <ProjectsPage />
-            </div>
-          }
-        />
+          <Route
+            path="/projects"
+            element={
+              <div className="min-h-screen bg-bg text-text-primary">
+                <ProjectsPage />
+              </div>
+            }
+          />
 
-        <Route
-          path="/experience"
-          element={
-            <div className="min-h-screen bg-bg text-text-primary">
-              <ExperiencePage />
-            </div>
-          }
-        />
+          <Route
+            path="/experience"
+            element={
+              <div className="min-h-screen bg-bg text-text-primary">
+                <ExperiencePage />
+              </div>
+            }
+          />
 
-        <Route
-          path="/about"
-          element={
-            <div className="min-h-screen bg-bg text-text-primary">
-              <AboutPage />
-            </div>
-          }
-        />
+          <Route
+            path="/about"
+            element={
+              <div className="min-h-screen bg-bg text-text-primary">
+                <AboutPage />
+              </div>
+            }
+          />
 
-        <Route
-          path="/contact"
-          element={
-            <div className="min-h-screen bg-bg text-text-primary">
-              <ContactPage />
-            </div>
-          }
-        />
+          <Route
+            path="/contact"
+            element={
+              <div className="min-h-screen bg-bg text-text-primary">
+                <ContactPage />
+              </div>
+            }
+          />
+        </Route>
 
         {/* ================================
             ADMIN LOGIN

@@ -16,7 +16,7 @@
 //               SELECTED WORK
 //             </p>
 
-//             <h2 className="font-display text-6xl leading-[0.85] tracking-tight md:text-7xl">
+//             <h2 className="font-display text-6xl leading-[1.05] tracking-tight md:text-7xl md:leading-[0.85]">
 //               FEATURED <span className="text-outline">PROJECTS</span>
 //             </h2>
 //           </div>
@@ -78,7 +78,7 @@ const Projects = () => {
               SELECTED WORK
             </p>
 
-            <h2 className="font-display text-6xl leading-[0.85] tracking-tight md:text-7xl">
+            <h2 className="font-display text-6xl leading-[1.05] tracking-tight md:text-7xl md:leading-[0.85]">
               FEATURED <span className="text-outline">PROJECTS</span>
             </h2>
           </div>

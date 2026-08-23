@@ -28,7 +28,7 @@ const AboutPage = () => {
             </span>
           </div>
 
-          <h1 className="font-display text-6xl leading-[0.85] tracking-tight md:text-7xl">
+          <h1 className="font-display text-6xl leading-[1.05] tracking-tight md:text-7xl md:leading-[0.85]">
             NUFAIL <span className="text-outline">SHAIKH</span>
           </h1>
 
@@ -75,8 +75,8 @@ const AboutPage = () => {
             <div className="relative">
               <img
                 src={ABOUT_PAGE_CONTENT.image}
-                alt="Henil Patel"
-                className="aspect-[4/3] w-full border border-border object-cover"
+                alt="Nufail Shaikh"
+                className="aspect-[4/3] w-full border border-border object-cover object-top"
               />
               <div className="absolute bottom-4 right-4">
                 <Badge dotColor="bg-accent">OPEN TO WORK</Badge>

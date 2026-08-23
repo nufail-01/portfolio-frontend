@@ -30,7 +30,7 @@
 //                 <span className="font-mono text-sm tracking-widest text-accent">WORK</span>
 //               </div>
 
-//               <h1 className="font-display text-6xl leading-[0.85] tracking-tight md:text-7xl">
+//               <h1 className="font-display text-6xl leading-[1.05] tracking-tight md:text-7xl md:leading-[0.85]">
 //                 ALL <span className="text-outline">PROJECTS</span>
 //               </h1>
 //             </div>
@@ -109,7 +109,7 @@ const ProjectsPage = () => {
                 <span className="font-mono text-sm tracking-widest text-accent">WORK</span>
               </div>
 
-              <h1 className="font-display text-6xl leading-[0.85] tracking-tight md:text-7xl">
+              <h1 className="font-display text-6xl leading-[1.05] tracking-tight md:text-7xl md:leading-[0.85]">
                 ALL <span className="text-outline">PROJECTS</span>
               </h1>
             </div>

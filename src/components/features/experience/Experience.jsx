@@ -28,7 +28,7 @@ const Experience = () => {
               </span>
             </div>
 
-            <h2 className="font-display text-6xl leading-[0.85] tracking-tight md:text-7xl">
+            <h2 className="font-display text-6xl leading-[1.05] tracking-tight md:text-7xl md:leading-[0.85]">
               EXPERIENCE &amp; <span className="text-outline">EDUCATION</span>
             </h2>
           </div>

@@ -59,7 +59,7 @@
 //             </span>
 //           </div>
 
-//           <h1 className="font-display text-6xl leading-[0.85] tracking-tight md:text-7xl">
+//           <h1 className="font-display text-6xl leading-[1.05] tracking-tight md:text-7xl md:leading-[0.85]">
 //             LET'S <span className="text-outline">TALK</span>
 //           </h1>
 
@@ -259,7 +259,7 @@ const Contact = () => {
             </span>
           </div>
 
-          <h1 className="font-display text-6xl leading-[0.85] tracking-tight md:text-7xl">
+          <h1 className="font-display text-6xl leading-[1.05] tracking-tight md:text-7xl md:leading-[0.85]">
             LET'S <span className="text-outline">TALK</span>
           </h1>
 

@@ -13,7 +13,7 @@ const Contact = () => {
         </p>
 
         {/* Heading with inline circular CTA */}
-        <h2 className="font-display text-6xl leading-[0.9] tracking-tight md:text-7xl lg:text-8xl">
+        <h2 className="font-display text-6xl leading-[1.1] tracking-tight md:text-7xl md:leading-[0.95] lg:text-8xl">
           READY TO TAKE YOUR
           <br />
           <span className="inline-flex items-center gap-8">
