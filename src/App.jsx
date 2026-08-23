@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom'
 
 import SmoothScroll from './components/providers/smoothscroll/SmoothScroll'
 import CustomCursor from './components/ui/layout-primitives/CustomCursor'
+import SocialSidebar from './components/ui/navigation/SocialSidebar'
 
 import Home from './pages/home/Home'
 import ProjectsPage from './pages/projects/ProjectsPage'
@@ -18,6 +19,7 @@ import Skills from './admin/pages/skills/Skills'
 import AdminLayout from './admin/components/layout/AdminLayout'
 import ProtectedRoute from './admin/components/auth/ProtectedRoute'
 
+
 function App() {
   return (
     <BrowserRouter>
@@ -26,53 +28,62 @@ function App() {
         <Routes>
 
           {/* ================================
-              PUBLIC PORTFOLIO
+              PUBLIC PORTFOLIO (social sidebar shown here only)
           ================================= */}
 
           <Route
-            path="/"
             element={
-              <div className="min-h-screen bg-bg text-text-primary">
-                <Home />
-              </div>
+              <>
+                <SocialSidebar />
+                <Outlet />
+              </>
             }
-          />
+          >
+            <Route
+              path="/"
+              element={
+                <div className="min-h-screen bg-bg text-text-primary">
+                  <Home />
+                </div>
+              }
+            />
 
-          <Route
-            path="/projects"
-            element={
-              <div className="min-h-screen bg-bg text-text-primary">
-                <ProjectsPage />
-              </div>
-            }
-          />
+            <Route
+              path="/projects"
+              element={
+                <div className="min-h-screen bg-bg text-text-primary">
+                  <ProjectsPage />
+                </div>
+              }
+            />
 
-          <Route
-            path="/experience"
-            element={
-              <div className="min-h-screen bg-bg text-text-primary">
-                <ExperiencePage />
-              </div>
-            }
-          />
+            <Route
+              path="/experience"
+              element={
+                <div className="min-h-screen bg-bg text-text-primary">
+                  <ExperiencePage />
+                </div>
+              }
+            />
 
-          <Route
-            path="/about"
-            element={
-              <div className="min-h-screen bg-bg text-text-primary">
-                <AboutPage />
-              </div>
-            }
-          />
+            <Route
+              path="/about"
+              element={
+                <div className="min-h-screen bg-bg text-text-primary">
+                  <AboutPage />
+                </div>
+              }
+            />
 
-          <Route
-            path="/contact"
-            element={
-              <div className="min-h-screen bg-bg text-text-primary">
-                <ContactPage />
-              </div>
-            }
-          />
+            <Route
+              path="/contact"
+              element={
+                <div className="min-h-screen bg-bg text-text-primary">
+                  <ContactPage />
+                </div>
+              }
+            />
+          </Route>
 
           {/* ================================
               ADMIN LOGIN
