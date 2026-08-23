@@ -14,9 +14,7 @@ const Experience = () => {
   }, [filter])
 
   return (
-    // old
-    // <section id="experience" className="py-32">
-      // new
+  
       <section id="experience" className="py-16 md:px-8 md:py-20 lg:px-12">
       <Container>
         <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
