@@ -2,13 +2,11 @@ import Container from "../../ui/layout-primitives/Container";
 import Badge from "../../ui/badges/Badge";
 import StatCard from "../../ui/cards/StatCard";
 import Button from "../../ui/buttons/Button";
+
 import { ABOUT_STATS, ABOUT_CONTENT } from "../../../constants/about/about";
 
 const About = () => {
   return (
-    // old
-    // <section id="about" className="py-32">
-    // new
     <section id="about" className="py-16 md:px-8 md:py-20 lg:px-12">
       <Container>
         {/* Eyebrow + heading */}
@@ -74,7 +72,6 @@ const About = () => {
               <Button href="/about" isRoute variant="brutalist">
                 MORE ABOUT ME
               </Button>
-
               <Button
                 href={ABOUT_CONTENT.resumeUrl}
                 variant="brutalist"
