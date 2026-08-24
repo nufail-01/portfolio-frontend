@@ -1,17 +1,47 @@
+import { motion } from 'framer-motion'
 import SkillTag from '../../ui/tags/SkillTag'
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
+}
+
+const tagContainer = {
+  hidden: {},
+  show: {
+    transition: { staggerChildren: 0.05 },
+  },
+}
+
+const tagItem = {
+  hidden: { opacity: 0, y: 10 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: 'easeOut' } },
+}
 
 const TechStackColumn = ({ title, skills }) => {
   return (
-    <div>
-      <p className="font-mono text-xs tracking-widest text-text-muted">
+    <motion.div
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, amount: 0.4 }}
+    >
+      <motion.p
+        variants={fadeUp}
+        className="font-mono text-xs tracking-widest text-text-muted"
+      >
         {title.toUpperCase()}
-      </p>
-      <div className="mt-5 flex flex-wrap gap-3">
+      </motion.p>
+      <motion.div
+        variants={tagContainer}
+        className="mt-5 flex flex-wrap gap-3"
+      >
         {skills.map((skill) => (
-          <SkillTag key={skill}>{skill}</SkillTag>
+          <motion.div key={skill} variants={tagItem}>
+            <SkillTag>{skill}</SkillTag>
+          </motion.div>
         ))}
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   )
 }
 

@@ -1,204 +1,49 @@
-// // import TechPill from '../../ui/tags/TechPill'
-// // import StatusBadge from '../../ui/badges/StatusBadge'
-
-// // const ProjectCard = ({ project }) => {
-// //   const { title, description, image, link, tags, category, year } = project
-
-// //   return (
-// //     <div>
-// //       <a
-// //         href={link}
-// //         target="_blank"
-// //         rel="noopener noreferrer"
-// //         className="group relative block overflow-hidden rounded-2xl border border-border"
-// //       >
-// //         <img
-// //           src={image}
-// //           alt={title}
-// //           className="aspect-video w-full object-cover transition-transform duration-500 group-hover:scale-105"
-// //         />
-
-// //         {year && (
-// //           <span className="absolute left-4 top-4 rounded-md border border-white/20 bg-black/50 px-3 py-1.5 font-mono text-xs text-white backdrop-blur-sm">
-// //             {year}
-// //           </span>
-// //         )}
-
-// //         {category && (
-// //           <StatusBadge
-// //             category={category}
-// //             className="absolute right-4 top-4"
-// //           />
-// //         )}
-// //       </a>
-
-// //       <div className="mt-6 flex items-start justify-between gap-4">
-// //         <h3 className="font-display text-2xl">{title}</h3>
-
-// //         <a
-// //           href={link}
-// //           target="_blank"
-// //           rel="noopener noreferrer"
-// //           aria-label={`Open ${title}`}
-// //           className="mt-1 text-text-muted transition-colors hover:text-accent"
-// //         >
-// //           ↗
-// //         </a>
-// //       </div>
-
-// //       <p className="mt-2 max-w-md text-text-muted">{description}</p>
-
-// //       <div className="mt-4 flex flex-wrap gap-2">
-// //         {tags.map((tag) => (
-// //           <TechPill key={tag}>{tag}</TechPill>
-// //         ))}
-// //       </div>
-// //     </div>
-// //   )
-// // }
-
-// // export default ProjectCard
-
-
-// import TechPill from '../../ui/tags/TechPill'
-// import StatusBadge from '../../ui/badges/StatusBadge'
-
-// const ProjectCard = ({ project }) => {
-//   const { title, description, image, link, tags = [], category, year } = project
-
-//   // Add protocol if the link doesn't already have one.
-//   const safeLink =
-//     link && !/^https?:\/\//i.test(link) ? `https://${link}` : link
-
-//   return (
-//     <div>
-//       <a
-//         href={safeLink}
-//         target="_blank"
-//         rel="noopener noreferrer"
-//         className="group relative block overflow-hidden rounded-2xl border border-border"
-//       >
-//         <img
-//           src={image}
-//           alt={title}
-//           className="aspect-video w-full object-cover transition-transform duration-500 group-hover:scale-105"
-//         />
-
-//         {year && (
-//           <span className="absolute left-4 top-4 rounded-md border border-white/20 bg-black/50 px-3 py-1.5 font-mono text-xs text-white backdrop-blur-sm">
-//             {year}
-//           </span>
-//         )}
-
-//         {category && (
-//           <StatusBadge
-//             category={category}
-//             className="absolute right-4 top-4"
-//           />
-//         )}
-//       </a>
-
-//       <div className="mt-6 flex items-start justify-between gap-4">
-//         <h3 className="font-display text-2xl">{title}</h3>
-
-//         <a
-//           href={safeLink}
-//           target="_blank"
-//           rel="noopener noreferrer"
-//           aria-label={`Open ${title}`}
-//           className="mt-1 text-text-muted transition-colors hover:text-accent"
-//         >
-//           ↗
-//         </a>
-//       </div>
-
-//       <p className="mt-2 max-w-md text-text-muted">{description}</p>
-
-//       <div className="mt-4 flex flex-wrap gap-2">
-//         {tags.map((tag) => (
-//           <TechPill key={tag}>{tag}</TechPill>
-//         ))}
-//       </div>
-//     </div>
-//   )
-// }
-
-// export default ProjectCard
-
-import { useRef } from 'react'
-import gsap from 'gsap'
-import { useGSAP } from '@gsap/react'
+import { motion } from 'framer-motion'
 import TechPill from '../../ui/tags/TechPill'
 import StatusBadge from '../../ui/badges/StatusBadge'
 
 const ProjectCard = ({ project }) => {
-  const { title, description, image, link, tags = [], category, year } = project
+  const {
+    title,
+    description,
+    image,
+    link,
+    tags = [],
+    category,
+    year,
+  } = project
 
   // Add protocol if the link doesn't already have one.
   const safeLink =
-    link && !/^https?:\/\//i.test(link) ? `https://${link}` : link
-
-  const cardRef = useRef(null)
-  const imageWrapRef = useRef(null)
-  const imageRef = useRef(null)
-  const arrowRef = useRef(null)
-
-  useGSAP(
-    () => {
-      const imageEl = imageRef.current
-      const arrowEl = arrowRef.current
-
-      const imageTween = gsap.to(imageEl, {
-        scale: 1.06,
-        duration: 0.6,
-        ease: 'power3.out',
-        paused: true,
-      })
-
-      const arrowTween = gsap.to(arrowEl, {
-        x: 3,
-        y: -3,
-        duration: 0.3,
-        ease: 'power3.out',
-        paused: true,
-      })
-
-      const el = cardRef.current
-
-      const onEnter = () => {
-        imageTween.play()
-        arrowTween.play()
-      }
-
-      const onLeave = () => {
-        imageTween.reverse()
-        arrowTween.reverse()
-      }
-
-      el.addEventListener('mouseenter', onEnter)
-      el.addEventListener('mouseleave', onLeave)
-
-      return () => {
-        el.removeEventListener('mouseenter', onEnter)
-        el.removeEventListener('mouseleave', onLeave)
-      }
-    },
-    { scope: cardRef },
-  )
+    link && !/^https?:\/\//i.test(link)
+      ? `https://${link}`
+      : link
 
   return (
-    <div ref={cardRef}>
+    <motion.div
+      initial="rest"
+      whileHover="hover"
+      animate="rest"
+    >
+      {/* Project Image */}
       <a
         href={safeLink}
         target="_blank"
         rel="noopener noreferrer"
         className="relative block overflow-hidden rounded-2xl border border-border"
       >
-        <div ref={imageWrapRef} className="overflow-hidden">
-          <img
-            ref={imageRef}
+        <div className="overflow-hidden">
+          <motion.img
             src={image}
             alt={title}
+            variants={{
+              rest: { scale: 1 },
+              hover: { scale: 1.06 },
+            }}
+            transition={{
+              duration: 0.6,
+              ease: 'easeOut',
+            }}
             className="aspect-video w-full object-cover"
           />
         </div>
@@ -217,8 +62,11 @@ const ProjectCard = ({ project }) => {
         )}
       </a>
 
+      {/* Project Title + External Link */}
       <div className="mt-6 flex items-start justify-between gap-4">
-        <h3 className="font-display text-2xl">{title}</h3>
+        <h3 className="font-display text-2xl">
+          {title}
+        </h3>
 
         <a
           href={safeLink}
@@ -227,20 +75,34 @@ const ProjectCard = ({ project }) => {
           aria-label={`Open ${title}`}
           className="mt-1 text-text-muted transition-colors hover:text-accent"
         >
-          <span ref={arrowRef} className="inline-block">
+          <motion.span
+            variants={{
+              rest: { x: 0, y: 0 },
+              hover: { x: 3, y: -3 },
+            }}
+            transition={{
+              duration: 0.3,
+              ease: 'easeOut',
+            }}
+            className="inline-block"
+          >
             ↗
-          </span>
+          </motion.span>
         </a>
       </div>
 
-      <p className="mt-2 max-w-md text-text-muted">{description}</p>
+      {/* Description */}
+      <p className="mt-2 max-w-md text-text-muted">
+        {description}
+      </p>
 
+      {/* Technologies */}
       <div className="mt-4 flex flex-wrap gap-2">
         {tags.map((tag) => (
           <TechPill key={tag}>{tag}</TechPill>
         ))}
       </div>
-    </div>
+    </motion.div>
   )
 }
 

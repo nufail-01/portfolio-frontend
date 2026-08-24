@@ -1,7 +1,24 @@
-
+import { motion } from "framer-motion";
 import Container from "../../ui/layout-primitives/Container";
 import Button from "../../ui/buttons/Button";
 import { CONTACT_DETAILS } from "../../../constants/contact/contactInfo";
+
+const lineGrow = {
+  hidden: { scaleX: 0 },
+  show: { scaleX: 1, transition: { duration: 0.6, ease: "easeOut" } },
+};
+
+const fadeX = {
+  hidden: { opacity: 0, x: -10 },
+  show: { opacity: 1, x: 0, transition: { duration: 0.4, ease: "easeOut" } },
+};
+
+const headerContainer = {
+  hidden: {},
+  show: {
+    transition: { staggerChildren: 0.1 },
+  },
+};
 
 const Contact = () => {
   return (
@@ -11,25 +28,46 @@ const Contact = () => {
     >
       <Container>
         {/* Eyebrow */}
-        <div className="mb-6 flex items-center gap-3">
-          <span className="h-px w-8 bg-accent" />
+        <motion.div
+          className="mb-6 flex items-center gap-3"
+          variants={headerContainer}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.75 }}
+        >
+          <motion.span
+            variants={lineGrow}
+            style={{ transformOrigin: "left" }}
+            className="h-px w-8 bg-accent"
+          />
 
-          <p className="font-mono text-sm tracking-wide text-accent">
+          <motion.p
+            variants={fadeX}
+            className="font-mono text-sm tracking-wide text-accent"
+          >
             LET'S WORK TOGETHER
-          </p>
-        </div>
+          </motion.p>
+        </motion.div>
 
         {/* Heading with inline circular CTA */}
-        <h2 className="font-display text-6xl leading-[1.1] tracking-tight md:text-7xl md:leading-[0.95] lg:text-8xl">
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.5 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="font-display text-6xl leading-[1.1] tracking-tight md:text-7xl md:leading-[0.95] lg:text-8xl"
+        >
           READY TO TAKE YOUR
           <br />
 
           <span className="inline-flex items-center gap-8">
             IDEA TO
 
-            <a
+            <motion.a
               href={`mailto:${CONTACT_DETAILS.email}`}
-              className="flex h-32 w-32 shrink-0 flex-col items-center justify-center rounded-full bg-accent font-mono text-sm font-medium text-bg transition-transform hover:scale-105 md:h-36 md:w-36"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="flex h-32 w-32 shrink-0 flex-col items-center justify-center rounded-full bg-accent font-mono text-sm font-medium text-bg md:h-36 md:w-36"
             >
               <span
                 aria-hidden="true"
@@ -39,7 +77,7 @@ const Contact = () => {
               </span>
 
               Start Project
-            </a>
+            </motion.a>
           </span>
 
           <br />
@@ -47,10 +85,16 @@ const Contact = () => {
           <span className="text-outline">
             THE NEXT LEVEL?
           </span>
-        </h2>
+        </motion.h2>
 
         {/* Tagline + email */}
-        <div className="mt-16 flex flex-col items-start justify-between gap-8 lg:flex-row lg:items-center">
+        <motion.div
+          className="mt-16 flex flex-col items-start justify-between gap-8 lg:flex-row lg:items-center"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.5 }}
+          transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
+        >
           <p className="max-w-sm text-lg text-text-muted">
             {CONTACT_DETAILS.tagline}
           </p>
@@ -61,7 +105,7 @@ const Contact = () => {
           >
             {CONTACT_DETAILS.email}
           </Button>
-        </div>
+        </motion.div>
       </Container>
     </section>
   );

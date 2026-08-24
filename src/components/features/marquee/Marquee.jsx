@@ -1,3 +1,5 @@
+import { motion } from "framer-motion";
+
 const TECH = [
   "HTML",
   "CSS",
@@ -13,12 +15,21 @@ const TECH = [
   "CANVA",
   "FIGMA",
 ];
+
 const Marquee = () => {
   const items = [...TECH, ...TECH, ...TECH]; // duplicate for seamless loop
 
   return (
     <div className="overflow-hidden border-y border-border bg-accent py-4">
-      <div className="animate-marquee flex w-max gap-10">
+      <motion.div
+        className="flex w-max gap-10"
+        animate={{ x: ["0%", "-33.3333%"] }}
+        transition={{
+          duration: 25,
+          ease: "linear",
+          repeat: Infinity,
+        }}
+      >
         {items.map((item, i) => (
           <span
             key={i}
@@ -28,7 +39,7 @@ const Marquee = () => {
             <span aria-hidden="true">✦</span>
           </span>
         ))}
-      </div>
+      </motion.div>
     </div>
   );
 };

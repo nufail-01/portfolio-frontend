@@ -1,8 +1,42 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 import Container from "../../ui/layout-primitives/Container";
 import Button from "../../ui/buttons/Button";
 import { NAV_LINKS } from "../../../constants/navigation/navigation";
+
+const menuContainer = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.06,
+      delayChildren: 0.1,
+    },
+  },
+};
+
+const menuItem = {
+  hidden: { opacity: 0, y: 24 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: "easeOut",
+    },
+  },
+};
+
+const underline = {
+  rest: { scaleX: 0 },
+  hover: {
+    scaleX: 1,
+    transition: {
+      duration: 0.3,
+      ease: "easeOut",
+    },
+  },
+};
 
 const Navbar = () => {
   const [isVisible, setIsVisible] = useState(true);
@@ -13,7 +47,6 @@ const Navbar = () => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
 
-      // Don't hide navbar while mobile menu is open
       if (isMenuOpen) return;
 
       if (currentScrollY < 80) {
@@ -27,14 +60,15 @@ const Navbar = () => {
       lastScrollY.current = currentScrollY;
     };
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("scroll", handleScroll, {
+      passive: true,
+    });
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [isMenuOpen]);
 
-  // Lock body scroll when mobile menu is open
   useEffect(() => {
     document.body.style.overflow = isMenuOpen ? "hidden" : "";
 
@@ -43,7 +77,6 @@ const Navbar = () => {
     };
   }, [isMenuOpen]);
 
-  // Close menu on Escape key
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === "Escape") {
@@ -59,10 +92,17 @@ const Navbar = () => {
   }, []);
 
   return (
-    <header
-      className={`sticky top-0 z-50 w-full border-border/60 bg-bg/90 backdrop-blur-sm transition-transform duration-500 ${
-        isVisible ? "translate-y-0" : "-translate-y-full"
-      }`}
+    <motion.header
+      initial={{ y: "-100%", opacity: 0 }}
+      animate={{
+        y: isVisible ? 0 : "-100%",
+        opacity: 1,
+      }}
+      transition={{
+        duration: 0.7,
+        ease: [0.16, 1, 0.3, 1],
+      }}
+      className="sticky top-0 z-50 w-full border-border/60 bg-bg/90 backdrop-blur-sm"
     >
       <Container>
         <div className="flex items-center justify-between px-5 py-4 md:px-8 lg:px-10">
@@ -77,34 +117,43 @@ const Navbar = () => {
 
           {/* Desktop nav */}
           <nav className="hidden items-center gap-10 md:flex">
-            {NAV_LINKS.map((link) =>
-              link.isRoute ? (
-                <Link
-                  key={link.href}
-                  to={link.href}
-                  className="group relative font-mono text-sm tracking-wide text-text-muted transition-colors hover:text-text-primary"
+            {NAV_LINKS.map((link) => {
+              const content = (
+                <motion.span
+                  initial="rest"
+                  whileHover="hover"
+                  animate="rest"
+                  className="relative inline-block font-mono text-sm tracking-wide text-text-muted transition-colors hover:text-text-primary"
                 >
                   {link.label.toUpperCase()}
 
-                  <span className="absolute -bottom-1 left-0 h-px w-full origin-left scale-x-0 bg-accent transition-transform duration-300 ease-out group-hover:scale-x-100" />
+                  <motion.span
+                    variants={underline}
+                    style={{ transformOrigin: "left" }}
+                    className="absolute -bottom-1 left-0 h-px w-full bg-accent"
+                  />
+                </motion.span>
+              );
+
+              return link.isRoute ? (
+                <Link key={link.href} to={link.href}>
+                  {content}
                 </Link>
               ) : (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  className="group relative font-mono text-sm tracking-wide text-text-muted transition-colors hover:text-text-primary"
-                >
-                  {link.label.toUpperCase()}
-
-                  <span className="absolute -bottom-1 left-0 h-px w-full origin-left scale-x-0 bg-accent transition-transform duration-300 ease-out group-hover:scale-x-100" />
+                <a key={link.href} href={link.href}>
+                  {content}
                 </a>
-              ),
-            )}
+              );
+            })}
           </nav>
 
           {/* Desktop CTA */}
           <div className="hidden md:block">
-            <Button href="/contact" isRoute variant="brutalist">
+            <Button
+              href="/contact"
+              isRoute
+              variant="brutalist"
+            >
               Hire Me
             </Button>
           </div>
@@ -119,28 +168,58 @@ const Navbar = () => {
           >
             <span className="relative block h-4 w-6">
               {/* Top line */}
-              <span
-                className={`absolute left-0 block h-[1.5px] w-6 bg-text-primary transition-all duration-300 ease-out ${
+              <motion.span
+                animate={
                   isMenuOpen
-                    ? "top-1/2 -translate-y-1/2 rotate-45"
-                    : "top-0"
-                }`}
+                    ? {
+                        top: "50%",
+                        y: "-50%",
+                        rotate: 45,
+                      }
+                    : {
+                        top: 0,
+                        y: 0,
+                        rotate: 0,
+                      }
+                }
+                transition={{
+                  duration: 0.3,
+                  ease: "easeOut",
+                }}
+                className="absolute left-0 block h-[1.5px] w-6 bg-text-primary"
               />
 
               {/* Middle line */}
-              <span
-                className={`absolute left-0 top-1/2 block h-[1.5px] w-6 -translate-y-1/2 bg-text-primary transition-opacity duration-200 ${
-                  isMenuOpen ? "opacity-0" : "opacity-100"
-                }`}
+              <motion.span
+                animate={{
+                  opacity: isMenuOpen ? 0 : 1,
+                }}
+                transition={{
+                  duration: 0.2,
+                }}
+                className="absolute left-0 top-1/2 block h-[1.5px] w-6 -translate-y-1/2 bg-text-primary"
               />
 
               {/* Bottom line */}
-              <span
-                className={`absolute left-0 block h-[1.5px] w-6 bg-text-primary transition-all duration-300 ease-out ${
+              <motion.span
+                animate={
                   isMenuOpen
-                    ? "top-1/2 -translate-y-1/2 -rotate-45"
-                    : "top-full"
-                }`}
+                    ? {
+                        top: "50%",
+                        y: "-50%",
+                        rotate: -45,
+                      }
+                    : {
+                        top: "100%",
+                        y: 0,
+                        rotate: 0,
+                      }
+                }
+                transition={{
+                  duration: 0.3,
+                  ease: "easeOut",
+                }}
+                className="absolute left-0 block h-[1.5px] w-6 bg-text-primary"
               />
             </span>
           </button>
@@ -148,53 +227,83 @@ const Navbar = () => {
       </Container>
 
       {/* Mobile menu overlay */}
-      <div
-        className={`fixed inset-x-0 top-0 z-40 h-screen w-full bg-bg transition-all duration-500 ease-out md:hidden ${
-          isMenuOpen
-            ? "translate-y-0 opacity-100"
-            : "pointer-events-none -translate-y-4 opacity-0"
-        }`}
-      >
-        <nav className="flex h-full flex-col items-start justify-center gap-2 px-8">
-          {NAV_LINKS.map((link) =>
-            link.isRoute ? (
-              <Link
-                key={link.href}
-                to={link.href}
-                onClick={() => setIsMenuOpen(false)}
-                className="group py-3 font-display text-4xl uppercase text-text-primary transition-colors"
-              >
-                <span className="transition-colors group-hover:text-accent">
-                  {link.label}
-                </span>
-              </Link>
-            ) : (
-              <a
-                key={link.href}
-                href={link.href}
-                onClick={() => setIsMenuOpen(false)}
-                className="group py-3 font-display text-4xl uppercase text-text-primary transition-colors"
-              >
-                <span className="transition-colors group-hover:text-accent">
-                  {link.label}
-                </span>
-              </a>
-            ),
-          )}
-
-          <div className="mt-8">
-            <Button
-              href="/contact"
-              isRoute
-              variant="brutalist"
-              onClick={() => setIsMenuOpen(false)}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            initial={{
+              opacity: 0,
+              y: -16,
+            }}
+            animate={{
+              opacity: 1,
+              y: 0,
+            }}
+            exit={{
+              opacity: 0,
+              y: -16,
+            }}
+            transition={{
+              duration: 0.4,
+              ease: [0.16, 1, 0.3, 1],
+            }}
+            className="fixed inset-x-0 top-0 z-40 h-screen w-full bg-bg md:hidden"
+          >
+            <motion.nav
+              variants={menuContainer}
+              initial="hidden"
+              animate="show"
+              className="flex h-full flex-col items-start justify-center gap-2 px-8"
             >
-              Hire Me
-            </Button>
-          </div>
-        </nav>
-      </div>
-    </header>
+              {NAV_LINKS.map((link) => {
+                const content = (
+                  <motion.span
+                    variants={menuItem}
+                    className="group py-3 font-display text-4xl uppercase text-text-primary"
+                  >
+                    <span className="transition-colors group-hover:text-accent">
+                      {link.label}
+                    </span>
+                  </motion.span>
+                );
+
+                return link.isRoute ? (
+                  <Link
+                    key={link.href}
+                    to={link.href}
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {content}
+                  </Link>
+                ) : (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {content}
+                  </a>
+                );
+              })}
+
+              {/* Mobile CTA */}
+              <motion.div
+                variants={menuItem}
+                className="mt-8"
+              >
+                <Button
+                  href="/contact"
+                  isRoute
+                  variant="brutalist"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Hire Me
+                </Button>
+              </motion.div>
+            </motion.nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.header>
   );
 };
 

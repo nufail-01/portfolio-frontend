@@ -1,13 +1,28 @@
+import { motion } from "framer-motion";
+
 const CertificationCard = ({ certification }) => {
   const { title, issuer, date, credentialUrl, image } = certification;
 
   return (
-    <div className="group overflow-hidden rounded-2xl border border-border bg-surface transition-colors hover:border-accent/50">
+    <motion.div
+      className="group overflow-hidden rounded-2xl border border-border bg-surface transition-colors hover:border-accent/50"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.3 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+    >
       <div className="aspect-video w-full overflow-hidden bg-bg">
-        <img
+        <motion.img
           src={image}
           alt={title}
-          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+          initial="rest"
+          whileHover="hover"
+          variants={{
+            rest: { scale: 1 },
+            hover: { scale: 1.06 },
+          }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="h-full w-full object-cover"
         />
       </div>
 
@@ -21,18 +36,31 @@ const CertificationCard = ({ certification }) => {
         </h3>
 
         {credentialUrl && (
-          <a
+          <motion.a
             href={credentialUrl}
             target="_blank"
             rel="noopener noreferrer"
+            initial="rest"
+            whileHover="hover"
+            animate="rest"
             className="mt-4 inline-flex items-center gap-2 font-mono text-sm text-text-muted transition-colors hover:text-accent"
           >
             View Credential
-            <span aria-hidden="true">↗</span>
-          </a>
+            <motion.span
+              aria-hidden="true"
+              variants={{
+                rest: { x: 0, y: 0 },
+                hover: { x: 3, y: -3 },
+              }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              className="inline-block"
+            >
+              ↗
+            </motion.span>
+          </motion.a>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 };
 

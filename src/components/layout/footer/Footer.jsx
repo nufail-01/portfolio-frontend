@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import Container from "../../ui/layout-primitives/Container";
 import Badge from "../../ui/badges/Badge";
 import {
@@ -14,6 +15,7 @@ import {
   BUILT_WITH,
   SOCIAL_LINKS,
 } from "../../../constants/footer/footer";
+
 const ICONS = {
   github: GithubIcon,
   linkedin: LinkedinIcon,
@@ -22,22 +24,63 @@ const ICONS = {
   x: XIcon,
 };
 
+const fadeUp = {
+  hidden: { opacity: 0, y: 20 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: "easeOut",
+    },
+  },
+};
+
+const columnsContainer = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.12,
+    },
+  },
+};
+
+const iconPop = {
+  hidden: { opacity: 0, scale: 0.8 },
+  show: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      duration: 0.4,
+      ease: "easeOut",
+    },
+  },
+};
+
 const Footer = () => {
   const year = new Date().getFullYear();
 
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
 
   return (
-    
     <footer className="md:px-8">
       <Container>
-        <div className="grid grid-cols-1 gap-12 py-16 md:grid-cols-[2fr_1px_1fr_1px_1fr]">
+        <motion.div
+          className="grid grid-cols-1 gap-12 py-16 md:grid-cols-[2fr_1px_1fr_1px_1fr]"
+          variants={columnsContainer}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.3 }}
+        >
           {/* Brand */}
-          <div>
+          <motion.div variants={fadeUp}>
             <h2 className="font-display text-4xl">
-             NUFAIL
+              NUFAIL
               <br />
               SHAIKH
             </h2>
@@ -50,32 +93,47 @@ const Footer = () => {
               FIND ME ONLINE
             </p>
 
-            <div className="mt-4 flex items-center gap-3">
+            <motion.div
+              className="mt-4 flex items-center gap-3"
+              variants={columnsContainer}
+            >
               {SOCIAL_LINKS.map((social) => {
                 const Icon = ICONS[social.icon];
+
+                if (!Icon) return null;
+
                 return (
-                  <a
+                  <motion.a
                     key={social.label}
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={social.label}
-                    className="flex h-11 w-11 items-center justify-center rounded-md border border-border text-text-muted transition-colors hover:border-accent/50 hover:text-text-primary"
+                    variants={iconPop}
+                    whileHover={{
+                      y: -3,
+                      borderColor: "var(--color-accent)",
+                    }}
+                    transition={{
+                      duration: 0.25,
+                      ease: "easeOut",
+                    }}
+                    className="flex h-11 w-11 items-center justify-center rounded-md border border-border text-text-muted transition-colors hover:text-text-primary"
                   >
                     <Icon size={18} />
-                  </a>
+                  </motion.a>
                 );
               })}
 
               <Badge dotColor="bg-accent">AVAILABLE</Badge>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
           {/* Divider (desktop only) */}
           <div className="hidden w-px bg-border md:block" />
 
           {/* Navigation */}
-          <div>
+          <motion.div variants={fadeUp}>
             <p className="font-mono text-xs tracking-widest text-text-muted">
               NAVIGATION
             </p>
@@ -91,55 +149,88 @@ const Footer = () => {
                 </a>
               ))}
             </nav>
-          </div>
+          </motion.div>
 
           {/* Divider (desktop only) */}
           <div className="hidden w-px bg-border md:block" />
 
           {/* Built with */}
-          <div>
+          <motion.div variants={fadeUp}>
             <p className="font-mono text-xs tracking-widest text-text-muted">
               BUILT WITH
             </p>
 
             <ul className="mt-6 flex flex-col gap-4">
               {BUILT_WITH.map((tech) => (
-                <li key={tech} className="text-text-primary">
+                <li
+                  key={tech}
+                  className="text-text-primary"
+                >
                   {tech}
                 </li>
               ))}
             </ul>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
-        
-
-        {/* Back to top (own row, right-aligned) */}
+        {/* Back to top (mobile only) */}
         <div className="flex justify-end pb-8 md:hidden">
-          <button
+          <motion.button
+            type="button"
             onClick={scrollToTop}
+            initial="rest"
+            whileHover="hover"
+            animate="rest"
             className="flex items-center gap-2 font-mono text-xs tracking-widest text-text-muted transition-colors hover:text-text-primary"
           >
             BACK TO TOP
-            <span className="flex h-8 w-8 items-center justify-center rounded-md border border-border">
+
+            <motion.span
+              variants={{
+                rest: { y: 0 },
+                hover: { y: -3 },
+              }}
+              transition={{
+                duration: 0.25,
+                ease: "easeOut",
+              }}
+              className="flex h-8 w-8 items-center justify-center rounded-md border border-border"
+            >
               <ArrowUp size={14} />
-            </span>
-          </button>
+            </motion.span>
+          </motion.button>
         </div>
 
         {/* Bottom bar */}
         <div className="flex flex-col items-start justify-between gap-4 border-t border-border py-6 font-mono text-xs tracking-wide text-text-muted md:flex-row md:items-center">
-          <p>© {year} Nufail Shaikh. All rights reserved.</p>
+          <p>
+            © {year} Nufail Shaikh. All rights reserved.
+          </p>
 
-          <button
+          <motion.button
+            type="button"
             onClick={scrollToTop}
+            initial="rest"
+            whileHover="hover"
+            animate="rest"
             className="hidden items-center gap-2 transition-colors hover:text-text-primary md:flex"
           >
             BACK TO TOP
-            <span className="flex h-8 w-8 items-center justify-center rounded-md border border-border">
+
+            <motion.span
+              variants={{
+                rest: { y: 0 },
+                hover: { y: -3 },
+              }}
+              transition={{
+                duration: 0.25,
+                ease: "easeOut",
+              }}
+              className="flex h-8 w-8 items-center justify-center rounded-md border border-border"
+            >
               <ArrowUp size={14} />
-            </span>
-          </button>
+            </motion.span>
+          </motion.button>
 
           <p>Designed &amp; developed by NUFAIL SHAIKH</p>
         </div>

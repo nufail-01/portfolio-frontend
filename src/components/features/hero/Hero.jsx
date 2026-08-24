@@ -1,17 +1,8 @@
 import { useState, useEffect, useRef } from "react";
-import gsap from "gsap";
-import { useGSAP } from "@gsap/react";
+import { motion, useMotionValue, useSpring } from "framer-motion";
 import Container from "../../ui/layout-primitives/Container";
 import Badge from "../../ui/badges/Badge";
 import Button from "../../ui/buttons/Button";
-
-gsap.registerPlugin(useGSAP);
-
-// const STACK_TAGS = [
-//   { label: "NEXT.JS / REACT", dot: "bg-accent" },
-//   { label: "MongoDB / Mongoose", dot: "bg-blue-400" },
-//   { label: "BUILDING IN PUBLIC", dot: "bg-orange-500" },
-// ];
 
 const ROLES = [
   "FRONTEND DEVELOPER",
@@ -117,22 +108,86 @@ const StatItem = ({ stat, startWhen }) => {
   );
 };
 
+// Magnetic wrapper — pulls its children toward the cursor while hovering,
+// clamped so it never drifts outside a safe range, springs back on leave
+const Magnetic = ({ children, strength = 0.2, max = 16 }) => {
+  const ref = useRef(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const springX = useSpring(x, { stiffness: 150, damping: 15, mass: 0.2 });
+  const springY = useSpring(y, { stiffness: 150, damping: 15, mass: 0.2 });
+
+  const clamp = (val, limit) => Math.max(-limit, Math.min(limit, val));
+
+  const handleMouseMove = (e) => {
+    const rect = ref.current.getBoundingClientRect();
+    const relX = e.clientX - (rect.left + rect.width / 2);
+    const relY = e.clientY - (rect.top + rect.height / 2);
+    x.set(clamp(relX * strength, max));
+    y.set(clamp(relY * strength, max));
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+
+  return (
+    <motion.div
+      ref={ref}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{ x: springX, y: springY }}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
+// --- Framer Motion variants ---
+
+const lineGrow = {
+  hidden: { scaleX: 0 },
+  show: { scaleX: 1, transition: { duration: 0.6, ease: "easeOut" } },
+};
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
+};
+
+const fadeX = {
+  hidden: { opacity: 0, x: -10 },
+  show: { opacity: 1, x: 0, transition: { duration: 0.4, ease: "easeOut" } },
+};
+
+const badgePop = {
+  hidden: { opacity: 0, y: 10, scale: 0.9 },
+  show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5, ease: "easeOut" } },
+};
+
+const nameLine = {
+  hidden: { y: "100%", opacity: 0 },
+  show: { y: 0, opacity: 1, transition: { duration: 0.9, ease: "power3" } },
+};
+
+const entrance = {
+  hidden: {},
+  show: {
+    transition: { staggerChildren: 0.12, delayChildren: 0.1 },
+  },
+};
+
+const statsContainer = {
+  hidden: {},
+  show: {
+    transition: { staggerChildren: 0.15 },
+  },
+};
+
 const Hero = () => {
   const roleText = useTypewriter(ROLES);
   const [statsInView, setStatsInView] = useState(false);
-
-  // GSAP scope + targets
-  const containerRef = useRef(null);
-  const eyebrowLineRef = useRef(null);
-  const roleTextRef = useRef(null);
-  const badgeRef = useRef(null);
-  const nameRef = useRef(null);
-  const line1Ref = useRef(null);
-  const line2Ref = useRef(null);
-  const divider1Ref = useRef(null);
-  const taglineRef = useRef(null);
-  const buttonRef = useRef(null);
-  const divider2Ref = useRef(null);
   const statsRef = useRef(null);
 
   useEffect(() => {
@@ -153,157 +208,110 @@ const Hero = () => {
     return () => observer.disconnect();
   }, []);
 
-  // Entrance timeline — runs once on mount
-  useGSAP(
-    () => {
-      const tl = gsap.timeline({
-        defaults: { ease: "power3.out" },
-        onComplete: () => {
-          // Free the outlined text from clipping once the reveal is done,
-          // so stroke edges (from text-outline) never get chopped off.
-          gsap.set([line1Ref.current, line2Ref.current], {
-            overflow: "visible",
-          });
-        },
-      });
-
-      tl.fromTo(
-        eyebrowLineRef.current,
-        { scaleX: 0 },
-        { scaleX: 1, duration: 0.6, transformOrigin: "left" },
-      )
-        .from(
-          roleTextRef.current,
-          { opacity: 0, x: -10, duration: 0.4 },
-          "<0.1",
-        )
-        .from(
-          badgeRef.current,
-          { opacity: 0, y: 10, scale: 0.9, duration: 0.5 },
-          "-=0.2",
-        )
-        .from(
-          nameRef.current.querySelectorAll("h1"),
-          { yPercent: 100, opacity: 0, duration: 0.9, stagger: 0.12 },
-          "-=0.2",
-        )
-        .fromTo(
-          divider1Ref.current,
-          { scaleX: 0 },
-          { scaleX: 1, duration: 0.7, transformOrigin: "left" },
-          "-=0.4",
-        )
-        .from(taglineRef.current, { opacity: 0, y: 20, duration: 0.6 }, "-=0.3")
-        .from(buttonRef.current, { opacity: 0, y: 20, duration: 0.5 }, "-=0.4")
-        .fromTo(
-          divider2Ref.current,
-          { scaleX: 0 },
-          { scaleX: 1, duration: 0.7, transformOrigin: "left" },
-          "-=0.2",
-        );
-    },
-    { scope: containerRef },
-  );
-
-  // Stats reveal — fires once the row scrolls into view
-  useGSAP(
-    () => {
-      if (!statsInView) return;
-      gsap.fromTo(
-        statsRef.current.children,
-        { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 0.6, stagger: 0.15, ease: "power3.out" },
-      );
-    },
-    { dependencies: [statsInView], scope: containerRef },
-  );
-
   return (
-    <section
-      ref={containerRef}
-      className="relative overflow-hidden py-16 md:px-8 md:py-20 lg:px-12"
-    >
+    <section className="relative overflow-hidden py-16 md:px-8 md:py-20 lg:px-12">
       <Container>
-        {/* Eyebrow */}
-        <div className="mb-6 flex items-center gap-3">
-          <span ref={eyebrowLineRef} className="h-px w-8 bg-accent" />
-          <span
-            ref={roleTextRef}
-            className="font-mono text-sm tracking-widest text-accent"
-          >
-            {roleText}
-            <span className="ml-0.5 inline-block h-[1em] w-[2px] animate-pulse bg-accent align-middle" />
-          </span>
-        </div>
-
-        <div ref={badgeRef}>
-          <Badge variant="filled" dotColor="bg-accent">
-            AVAILABLE FOR PROJECTS
-          </Badge>
-        </div>
-
-        {/* Name */}
-        <div className="relative mt-8" ref={nameRef}>
-          <div>
-            <div ref={line1Ref} className="overflow-hidden py-2 -my-2">
-              <h1 className="font-display text-7xl leading-[0.85] tracking-tight md:text-8xl lg:text-9xl">
-                NUFAIL
-              </h1>
-            </div>
-            <br />
-            <div ref={line2Ref} className="overflow-hidden py-2 -my-2">
-              <h1 className="font-display text-outline text-7xl leading-[0.85] tracking-tight md:text-8xl lg:text-9xl">
-                SHAIKH
-              </h1>
-            </div>
+        <motion.div variants={entrance} initial="hidden" animate="show">
+          {/* Eyebrow */}
+          <div className="mb-6 flex items-center gap-3">
+            <motion.span
+              variants={lineGrow}
+              style={{ transformOrigin: "left" }}
+              className="h-px w-8 bg-accent"
+            />
+            <motion.span
+              variants={fadeX}
+              className="font-mono text-sm tracking-widest text-accent"
+            >
+              {roleText}
+              <span className="ml-0.5 inline-block h-[1em] w-[2px] animate-pulse bg-accent align-middle" />
+            </motion.span>
           </div>
-        </div>
 
-        {/* Divider */}
-        <div
-          ref={divider1Ref}
-          className="mt-16 h-[2px] w-full bg-accent shadow-[0_0_12px_var(--color-accent)]"
-        />
+          <motion.div variants={badgePop}>
+            <Badge variant="filled" dotColor="bg-accent">
+              AVAILABLE FOR PROJECTS
+            </Badge>
+          </motion.div>
 
-        {/* Tagline + CTA */}
-        <div className="mt-10 flex flex-col items-start justify-between gap-10 lg:flex-row lg:items-end">
-          <p
-            ref={taglineRef}
-            className="max-w-xl font-body text-lg text-text-muted md:text-xl"
-          >
-            Building{" "}
-            <span className="font-semibold text-text-primary">
-              production-grade web experiences
-            </span>{" "}
-            with modern tech — creating{" "}
-            <span className="font-semibold text-text-primary">
-              fast, scalable, and polished products
-            </span>{" "}
-            that go beyond the prototype.
-          </p>
+          {/* Name — magnetic on hover */}
+          <Magnetic strength={0.2} max={16}>
+  <div className="relative mt-8">
+              <div>
+                <div className="overflow-hidden py-2 -my-2">
+                  <motion.h1
+                    variants={nameLine}
+                    className="font-display text-7xl leading-[0.85] tracking-tight md:text-8xl lg:text-9xl"
+                  >
+                    NUFAIL
+                  </motion.h1>
+                </div>
+                <br />
+                <div className="overflow-hidden py-2 -my-2">
+                  <motion.h1
+                    variants={nameLine}
+                    className="font-display text-outline text-7xl leading-[0.85] tracking-tight md:text-8xl lg:text-9xl"
+                  >
+                    SHAIKH
+                  </motion.h1>
+                </div>
+              </div>
+            </div>
+          </Magnetic>
 
-          <div ref={buttonRef}>
-            <Button href="#projects" variant="brutalist">
-              View Work
-            </Button>
+          {/* Divider */}
+          <motion.div
+            variants={lineGrow}
+            style={{ transformOrigin: "left" }}
+            className="mt-16 h-[2px] w-full bg-accent shadow-[0_0_12px_var(--color-accent)]"
+          />
+
+          {/* Tagline + CTA */}
+          <div className="mt-10 flex flex-col items-start justify-between gap-10 lg:flex-row lg:items-end">
+            <motion.p
+              variants={fadeUp}
+              className="max-w-xl font-body text-lg text-text-muted md:text-xl"
+            >
+              Building{" "}
+              <span className="font-semibold text-text-primary">
+                production-grade web experiences
+              </span>{" "}
+              with modern tech — creating{" "}
+              <span className="font-semibold text-text-primary">
+                fast, scalable, and polished products
+              </span>{" "}
+              that go beyond the prototype.
+            </motion.p>
+
+            <motion.div variants={fadeUp}>
+              <Button href="#projects" variant="brutalist">
+                View Work
+              </Button>
+            </motion.div>
           </div>
-        </div>
 
-        {/* Divider */}
-        <div
-          ref={divider2Ref}
-          className="mt-16 h-[2px] w-full bg-accent shadow-[0_0_12px_var(--color-accent)]"
-        />
+          {/* Divider */}
+          <motion.div
+            variants={lineGrow}
+            style={{ transformOrigin: "left" }}
+            className="mt-16 h-[2px] w-full bg-accent shadow-[0_0_12px_var(--color-accent)]"
+          />
+        </motion.div>
 
         {/* Stats */}
-        <div
+        <motion.div
           ref={statsRef}
           className="flex flex-wrap gap-x-24 gap-y-8 border-border pt-10"
+          variants={statsContainer}
+          initial="hidden"
+          animate={statsInView ? "show" : "hidden"}
         >
           {STATS.map((stat) => (
-            <StatItem key={stat.label} stat={stat} startWhen={statsInView} />
+            <motion.div key={stat.label} variants={fadeUp}>
+              <StatItem stat={stat} startWhen={statsInView} />
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </Container>
     </section>
   );
