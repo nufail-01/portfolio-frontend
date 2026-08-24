@@ -2,6 +2,7 @@ export const FOOTER_NAV = [
   { label: "Home", href: "/" },
   { label: "Projects", href: "/projects" },
   { label: "Experience", href: "/experience" },
+  { label: "Certifications", href: "/certifications" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ]; 
