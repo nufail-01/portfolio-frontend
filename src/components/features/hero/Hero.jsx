@@ -3,6 +3,7 @@ import { motion, useMotionValue, useSpring } from "framer-motion";
 import Container from "../../ui/layout-primitives/Container";
 import Badge from "../../ui/badges/Badge";
 import Button from "../../ui/buttons/Button";
+import { ArrowUpRight } from "lucide-react";
 
 const ROLES = [
   "FRONTEND DEVELOPER",
@@ -285,7 +286,7 @@ const Hero = () => {
 
             <motion.div variants={fadeUp}>
               <Button href="#projects" variant="brutalist">
-                View Work
+                View Work 
               </Button>
             </motion.div>
           </div>
