@@ -41,12 +41,12 @@ export const CERTIFICATIONS = [
     image: "/certifications/treasure-hunt.jpg",
     credentialUrl: "#",
   },
-  {
-    id: "completion-of-internship",
-    title: "Completion of Internship",
-    image: "/certifications/completion-of-internship.jpg",
-    credentialUrl: "#",
-  },
+  // {
+  //   id: "completion-of-internship",
+  //   title: "Completion of Internship",
+  //   image: "/certifications/completion-of-internship.jpg",
+  //   credentialUrl: "#",
+  // },
   {
     id: "pronttera-certificate",
     title: "Pronttera Certificate",
