@@ -4,4 +4,4 @@ export const CONTACT_DETAILS = {
   location: 'Pune, India',
 }
 
-export const AVAILABILITY_TEXT = 'AVAILABLE FOR PROJECTS — 2026'
+export const AVAILABILITY_TEXT = 'HANDSOME BY DEFAULT, CODER BY CHOICE'

@@ -231,7 +231,7 @@ const Hero = () => {
 
           <motion.div variants={badgePop}>
             <Badge variant="filled" dotColor="bg-accent">
-              AVAILABLE FOR PROJECTS
+              OPEN FOR WORK, NOT COMPLIMENTS
             </Badge>
           </motion.div>
 

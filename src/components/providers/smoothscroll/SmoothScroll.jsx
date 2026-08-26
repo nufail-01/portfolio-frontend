@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import Lenis from 'lenis'
 
 /**
@@ -7,13 +7,21 @@ import Lenis from 'lenis'
  * takes over the browser's native scroll with Lenis.
  */
 const SmoothScroll = ({ children }) => {
+  const lenisRef = useRef(null)
+
   useEffect(() => {
     const lenis = new Lenis({
-      lerp: 0.1, // lower = more floaty/buttery (try 0.07–0.08 for even smoother), higher = snappier
+      duration: 0.8, // shorter settle time = faster, snappier glide
+      easing: (t) => Math.min(1, 1 - Math.pow(2, -10 * t)), // exponential ease-out: fast start, soft tail
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
       smoothWheel: true,
-      wheelMultiplier: 0.9, // slightly lowers raw scroll speed so the glide reads as smoother
-      touchMultiplier: 2,
+      wheelMultiplier: 1.3, // raw scroll speed boosted for a faster feel
+      touchMultiplier: 2, // back up for quicker touch/trackpad response
+      infinite: false,
     })
+
+    lenisRef.current = lenis
 
     let rafId
 
@@ -24,9 +32,20 @@ const SmoothScroll = ({ children }) => {
 
     rafId = requestAnimationFrame(raf)
 
+    const handleVisibility = () => {
+      if (document.hidden) {
+        lenis.stop()
+      } else {
+        lenis.start()
+      }
+    }
+    document.addEventListener('visibilitychange', handleVisibility)
+
     return () => {
+      document.removeEventListener('visibilitychange', handleVisibility)
       cancelAnimationFrame(rafId)
       lenis.destroy()
+      lenisRef.current = null
     }
   }, [])
 
