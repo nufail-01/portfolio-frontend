@@ -28,7 +28,7 @@
    LIGHT THEME
 ================================= */
 
-[data-theme="light"] {
+/* [data-theme="light"] {
   --color-bg: #FFF6F8;
   --color-surface: #FFFFFF;
   --color-border: #EED9E0;
@@ -40,6 +40,20 @@
   --color-text-primary: #191417;
   --color-text-muted: #685D61;
   --color-text-faint: #A99EA3;
+} */
+
+[data-theme="light"] {
+  --color-bg: #F4F7F6;
+  --color-surface: #FFFFFF;
+  --color-border: #DCE6E3;
+
+  --color-accent: #0F6E63;
+  --color-accent-dim: #afe8da;
+  --color-accent-hover: #0B564D;
+
+  --color-text-primary: #101A18;
+  --color-text-muted: #5F6B68;
+  --color-text-faint: #9AA7A3;
 }
 
 @layer base {
