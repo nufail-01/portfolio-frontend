@@ -3,7 +3,7 @@ import Container from "../../ui/layout-primitives/Container";
 import Badge from "../../ui/badges/Badge";
 import StatCard from "../../ui/cards/StatCard";
 import Button from "../../ui/buttons/Button";
-import LiquidImage from "../../ui/media/LiquidImage"; 
+import LiquidImage from "../../ui/media/LiquidImage";
 import { ABOUT_STATS, ABOUT_CONTENT } from "../../../constants/about/about";
 
 const lineGrow = {
@@ -71,19 +71,14 @@ const About = () => {
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
           >
-            {/* <img
+            <LiquidImage
               src={ABOUT_CONTENT.image}
               alt="Nufail Shaikh"
-              className="aspect-[4/5] w-full max-w-xl border border-border object-cover object-top"
-            /> */}
-             <LiquidImage
-    src={ABOUT_CONTENT.image}
-    alt="Nufail Shaikh"
-    className="aspect-[4/5] w-full max-w-xl  border-border"
-  />
-            <div className="absolute -bottom-4 right-4">
+              className="aspect-[4/5] w-full max-w-xl  border-border"
+            />
+            {/* <div className="absolute -bottom-4 right-4">
               <Badge dotColor="bg-accent">OPEN TO WORK</Badge>
-            </div>
+            </div> */}
           </motion.div>
 
           {/* Text + stats + CTAs */}

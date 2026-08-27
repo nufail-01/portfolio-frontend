@@ -1,5 +1,5 @@
 import nufailImage from '../../assets/images/about/nufail.jpeg'
-
+import announcement from '../../assets/images/about/announcement.png'
 export const ABOUT_PAGE_CONTENT = {
   paragraphs: [
     {
@@ -16,5 +16,6 @@ export const ABOUT_PAGE_CONTENT = {
     },
   ],
   image: nufailImage,
-  resumeUrl: '/resume.pdf',
+  announcement: announcement,
+ resumeUrl: '/documents/nufail-resume.pdf',
 }

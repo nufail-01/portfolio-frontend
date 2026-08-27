@@ -1,16 +1,17 @@
-import Navbar from '../../components/layout/navbar/Navbar'
-import Footer from '../../components/layout/footer/Footer'
-import Badge from '../../components/ui/badges/Badge'
-import Container from '../../components/ui/layout-primitives/Container'
-import Button from '../../components/ui/buttons/Button'
+import Navbar from "../../components/layout/navbar/Navbar";
+import Footer from "../../components/layout/footer/Footer";
+import Badge from "../../components/ui/badges/Badge";
+import Container from "../../components/ui/layout-primitives/Container";
+import Button from "../../components/ui/buttons/Button";
 // import BackLink from "../components/common/BackLink";
 import { ABOUT_PAGE_CONTENT } from "../../constants/about/aboutPage";
-import WorkPrincipleCard from '../../components/features/about/WorkPrincipleCard'
-import TechStackColumn from '../../components/features/about/TechStackColumn'
+import WorkPrincipleCard from "../../components/features/about/WorkPrincipleCard";
+import TechStackColumn from "../../components/features/about/TechStackColumn";
 import { HOW_I_WORK } from "../../constants/about/howIWork";
 import { SKILL_CATEGORIES } from "../../constants/skills/skills";
 // import ContactCTA from "../components/sections/Contact";
-import Contact from '../../components/features/contact/Contact'
+import Contact from "../../components/features/contact/Contact";
+import LiquidImage from "../../components/ui/media/LiquidImage";
 
 const AboutPage = () => {
   return (
@@ -33,14 +34,15 @@ const AboutPage = () => {
             NUFAIL <span className="text-outline">SHAIKH</span>
           </h1>
 
-          <div className=" grid grid-cols-1 gap-16 lg:grid-cols-2 lg:items-center">
+          <div className="mt-8 grid grid-cols-1 gap-16 lg:mt-0 lg:grid-cols-2 lg:items-center">
             {/* Text */}
             <div>
               {ABOUT_PAGE_CONTENT.paragraphs.map((p, index) => (
                 <p
                   key={index}
-                  className={`text-lg text-text-muted ${index > 0 ? "mt-6" : ""
-                    }`}
+                  className={`text-lg text-text-muted ${
+                    index > 0 ? "mt-6" : ""
+                  }`}
                 >
                   {p.lead && (
                     <span className="font-semibold text-text-primary">
@@ -56,28 +58,37 @@ const AboutPage = () => {
                   GET IN TOUCH
                 </Button>
 
-                <Button
+                {/* <Button
                   href={ABOUT_PAGE_CONTENT.resumeUrl}
                   variant="brutalist"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   RESUME
-                </Button>
+                </Button> */}
+                <Button
+  href={ABOUT_PAGE_CONTENT.resumeUrl}
+  variant="brutalist"
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  RESUME
+</Button>
               </div>
             </div>
-
             {/* Image with floating badge */}
-            <div className="relative">
-              <img
-                src={ABOUT_PAGE_CONTENT.image}
+            <div className="relative mx-auto w-full max-w-xl">
+              <LiquidImage
+                src={ABOUT_PAGE_CONTENT.announcement}
                 alt="Nufail Shaikh"
-                className="aspect-[4/3] w-full border border-border object-cover object-top"
+                className="aspect-square w-full border-border"
+                objectFit="contain"
               />
-              <div className="absolute bottom-4 right-4">
-                <Badge dotColor="bg-accent">OPEN TO WORK</Badge>
-              </div>
             </div>
+            {/* <div className="absolute bottom-4 right-4">
+              <Badge dotColor="bg-accent">OPEN TO WORK</Badge>
+             </div> */}
+            {/* </div> */}
           </div>
           {/* How I Work */}
           <div className="mt-32">

@@ -12,5 +12,5 @@ export const ABOUT_CONTENT = {
     "I build fast, scalable products — turning ideas into polished web experiences that feel great to use. I care about the details, keeping things clean and performant, and building products that actually work.",
   ],
   image: nufailImage,
-  resumeUrl: '/resume.pdf',
+  resumeUrl: '/documents/nufail-resume.pdf',
 };

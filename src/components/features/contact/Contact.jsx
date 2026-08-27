@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import Container from "../../ui/layout-primitives/Container";
 import Button from "../../ui/buttons/Button";
 import { CONTACT_DETAILS } from "../../../constants/contact/contactInfo";
+import Magnet from '../../ui/effects/Magnet' // adjust path to wherever you saved Magnet.jsx
 
 const lineGrow = {
   hidden: { scaleX: 0 },
@@ -60,7 +61,7 @@ const Contact = () => {
           READY TO TAKE YOUR
           <br />
 
-          <span className="inline-flex items-center gap-8">
+          {/* <span className="inline-flex items-center gap-8">
             IDEA TO
 
             <motion.a
@@ -78,7 +79,23 @@ const Contact = () => {
 
               Start Project
             </motion.a>
-          </span>
+          </span> */}
+
+          <span className="inline-flex items-center gap-8">
+  IDEA TO
+ 
+  <Magnet padding={60} magnetStrength={6}>
+    <motion.a
+      href={`mailto:${CONTACT_DETAILS.email}`}
+      whileHover={{ scale: 1.15 }}
+      whileTap={{ scale: 0.95 }}
+      className="flex h-32 w-32 shrink-0 flex-col items-center justify-center rounded-full bg-accent text-center font-mono text-sm font-medium leading-relaxed tracking-wide text-bg md:h-36 md:w-36"
+    >
+      <span>Start</span>
+      <span>Project</span>
+    </motion.a>
+  </Magnet>
+</span>
 
           <br />
 
