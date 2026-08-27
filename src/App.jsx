@@ -19,9 +19,11 @@ import Skills from "./admin/pages/skills/Skills";
 import AdminLayout from "./admin/components/layout/AdminLayout";
 import ProtectedRoute from "./admin/components/auth/ProtectedRoute";
 import CertificationsPage from "./pages/certifications/CertificationsPage";
+import { ThemeProvider } from './context/theme/ThemeContext'
 
 function App() {
   return (
+     <ThemeProvider>
     <BrowserRouter>
       <SmoothScroll>
         <CustomCursor />
@@ -117,6 +119,7 @@ function App() {
         </Routes>
       </SmoothScroll>
     </BrowserRouter>
+    </ThemeProvider>
   );
 }
 

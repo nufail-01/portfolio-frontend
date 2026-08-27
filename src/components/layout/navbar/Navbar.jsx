@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Container from "../../ui/layout-primitives/Container";
 import Button from "../../ui/buttons/Button";
 import { NAV_LINKS } from "../../../constants/navigation/navigation";
+import ThemeToggle from "../../ui/theme/ThemeToggle";
 
 const menuContainer = {
   hidden: {},
@@ -147,13 +148,11 @@ const Navbar = () => {
             })}
           </nav>
 
-          {/* Desktop CTA */}
-          <div className="hidden md:block">
-            <Button
-              href="/contact"
-              isRoute
-              variant="brutalist"
-            >
+          {/* Desktop actions */}
+          <div className="hidden items-center gap-4 md:flex">
+            <ThemeToggle />
+
+            <Button href="/contact" isRoute variant="brutalist">
               Hire Me
             </Button>
           </div>
@@ -288,8 +287,10 @@ const Navbar = () => {
               {/* Mobile CTA */}
               <motion.div
                 variants={menuItem}
-                className="mt-8"
+                className="mt-10 flex w-full items-center gap-5"
               >
+                <ThemeToggle />
+
                 <Button
                   href="/contact"
                   isRoute

@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useTheme } from "../../../context/theme/ThemeContext";
 import Container from "../../ui/layout-primitives/Container";
 import Badge from "../../ui/badges/Badge";
 import StatCard from "../../ui/cards/StatCard";
@@ -29,6 +30,13 @@ const headerContainer = {
 };
 
 const About = () => {
+  const { theme } = useTheme();
+
+  const announcementImage =
+    theme === "dark"
+      ? ABOUT_CONTENT.announcementDark
+      : ABOUT_CONTENT.announcementLight;
+
   return (
     <section id="about" className="py-16 md:px-8 md:py-20 lg:px-12">
       <Container>

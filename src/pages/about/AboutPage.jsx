@@ -3,17 +3,23 @@ import Footer from "../../components/layout/footer/Footer";
 import Badge from "../../components/ui/badges/Badge";
 import Container from "../../components/ui/layout-primitives/Container";
 import Button from "../../components/ui/buttons/Button";
-// import BackLink from "../components/common/BackLink";
+import { useTheme } from "../../context/theme/ThemeContext";
 import { ABOUT_PAGE_CONTENT } from "../../constants/about/aboutPage";
 import WorkPrincipleCard from "../../components/features/about/WorkPrincipleCard";
 import TechStackColumn from "../../components/features/about/TechStackColumn";
 import { HOW_I_WORK } from "../../constants/about/howIWork";
 import { SKILL_CATEGORIES } from "../../constants/skills/skills";
-// import ContactCTA from "../components/sections/Contact";
 import Contact from "../../components/features/contact/Contact";
 import LiquidImage from "../../components/ui/media/LiquidImage";
 
 const AboutPage = () => {
+  const { theme } = useTheme();
+
+  const announcementImage =
+    theme === "dark"
+      ? ABOUT_PAGE_CONTENT.announcementDark
+      : ABOUT_PAGE_CONTENT.announcementLight;
+
   return (
     <>
       <Navbar />
@@ -77,14 +83,14 @@ const AboutPage = () => {
               </div>
             </div>
             {/* Image with floating badge */}
-            <div className="relative mx-auto w-full max-w-xl">
-              <LiquidImage
-                src={ABOUT_PAGE_CONTENT.announcement}
-                alt="Nufail Shaikh"
-                className="aspect-square w-full border-border"
-                objectFit="contain"
-              />
-            </div>
+           <div className="relative mx-auto w-full max-w-xl">
+  <LiquidImage
+    src={announcementImage}
+    alt="Nufail Shaikh"
+    className="aspect-square w-full border-border"
+    objectFit="contain"
+  />
+</div>
             {/* <div className="absolute bottom-4 right-4">
               <Badge dotColor="bg-accent">OPEN TO WORK</Badge>
              </div> */}

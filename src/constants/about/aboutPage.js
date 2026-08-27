@@ -1,5 +1,7 @@
 import nufailImage from '../../assets/images/about/nufail.jpeg'
-import announcement from '../../assets/images/about/announcement.png'
+import announcementDark from "../../assets/images/about/announcement.png";
+import announcementLight from "../../assets/images/about/announcement-2.png";
+
 export const ABOUT_PAGE_CONTENT = {
   paragraphs: [
     {
@@ -16,6 +18,7 @@ export const ABOUT_PAGE_CONTENT = {
     },
   ],
   image: nufailImage,
-  announcement: announcement,
+  announcementDark,
+announcementLight,
  resumeUrl: '/documents/nufail-resume.pdf',
 }
