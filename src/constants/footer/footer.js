@@ -1,3 +1,14 @@
+import reactIcon from '../../assets/icons/3d/react.png'
+import nodeIcon from '../../assets/icons/3d/nodejs.png'
+import tailwindIcon from '../../assets/icons/3d/tailwind.png'
+import htmlIcon from '../../assets/icons/3d/html.png'
+import cssIcon from '../../assets/icons/3d/css.png'
+import javascriptIcon from '../../assets/icons/3d/javascript.png'
+import typescriptIcon from '../../assets/icons/3d/typescript.png'
+import mongoIcon from '../../assets/icons/3d/mongo-db.png'
+import sassIcon from '../../assets/icons/3d/sass.png'
+import figmaIcon from '../../assets/icons/3d/figma.png'
+
 export const FOOTER_NAV = [
   { label: "Home", href: "/" },
   { label: "Projects", href: "/projects" },
@@ -7,7 +18,18 @@ export const FOOTER_NAV = [
   { label: "Contact", href: "/contact" },
 ]; 
 
-export const BUILT_WITH = ["React", "Tailwind CSS v4"];
+export const PROFICIENT_WITH = [
+  { name: 'HTML', icon: htmlIcon },
+  { name: 'CSS', icon: cssIcon },
+  { name: 'Sass', icon: sassIcon },
+  { name: 'JavaScript', icon: javascriptIcon },
+  { name: 'TypeScript', icon: typescriptIcon },
+  { name: 'Tailwind CSS', icon: tailwindIcon },
+  { name: 'React', icon: reactIcon },
+  { name: 'Node.js', icon: nodeIcon },
+  { name: 'MongoDB', icon: mongoIcon },
+  { name: 'Figma', icon: figmaIcon },
+]
 
 export const SOCIAL_LINKS = [
   {

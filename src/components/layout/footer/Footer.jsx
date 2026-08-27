@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import Icon3D from "../../ui/media/Icon3D";
 import Container from "../../ui/layout-primitives/Container";
 import Badge from "../../ui/badges/Badge";
 import {
@@ -12,7 +13,7 @@ import {
 
 import {
   FOOTER_NAV,
-  BUILT_WITH,
+  PROFICIENT_WITH,
   SOCIAL_LINKS,
 } from "../../../constants/footer/footer";
 
@@ -154,23 +155,43 @@ const Footer = () => {
           {/* Divider (desktop only) */}
           <div className="hidden w-px bg-border md:block" />
 
-          {/* Built with */}
-          <motion.div variants={fadeUp}>
+          {/* Proficient With */}
+          {/* <motion.div variants={fadeUp}>
             <p className="font-mono text-xs tracking-widest text-text-muted">
-              BUILT WITH
+              WHAT I'M IN LOVE WITH
             </p>
 
-            <ul className="mt-6 flex flex-col gap-4">
-              {BUILT_WITH.map((tech) => (
-                <li
-                  key={tech}
-                  className="text-text-primary"
+            <div className="mt-6 flex flex-wrap gap-6">
+              {PROFICIENT_WITH.map((tech) => (
+                <div
+                  key={tech.name}
+                  className="flex flex-col items-center gap-2"
                 >
-                  {tech}
-                </li>
+                  <Icon3D src={tech.icon} alt={tech.name} size={50} />
+                  <span className="font-mono text-[10px] text-text-muted">
+                    {tech.name}
+                  </span>
+                </div>
               ))}
-            </ul>
-          </motion.div>
+            </div>
+          </motion.div> */}
+          {/* Proficient With */}
+<motion.div variants={fadeUp}>
+  <p className="font-mono text-xs tracking-widest text-text-muted">
+    WHAT I'M IN LOVE WITH
+  </p>
+
+  <div className="mt-6 grid grid-cols-4 gap-x-4 gap-y-6">
+    {PROFICIENT_WITH.map((tech) => (
+      <div key={tech.name} className="flex flex-col items-center gap-2">
+        <Icon3D src={tech.icon} alt={tech.name} size={48} />
+        <span className="font-mono text-[10px] text-text-muted">
+          {tech.name}
+        </span>
+      </div>
+    ))}
+  </div>
+</motion.div>
         </motion.div>
 
         {/* Back to top (mobile only) */}
@@ -184,7 +205,6 @@ const Footer = () => {
             className="flex items-center gap-2 font-mono text-xs tracking-widest text-text-muted transition-colors hover:text-text-primary"
           >
             BACK TO TOP
-
             <motion.span
               variants={{
                 rest: { y: 0 },
@@ -203,9 +223,7 @@ const Footer = () => {
 
         {/* Bottom bar */}
         <div className="flex flex-col items-start justify-between gap-4 border-t border-border py-6 font-mono text-xs tracking-wide text-text-muted md:flex-row md:items-center">
-          <p>
-            © {year} Nufail Shaikh. All rights reserved.
-          </p>
+          <p>© {year} Nufail Shaikh. All rights reserved.</p>
 
           <motion.button
             type="button"
@@ -216,7 +234,6 @@ const Footer = () => {
             className="hidden items-center gap-2 transition-colors hover:text-text-primary md:flex"
           >
             BACK TO TOP
-
             <motion.span
               variants={{
                 rest: { y: 0 },
@@ -232,7 +249,11 @@ const Footer = () => {
             </motion.span>
           </motion.button>
 
-          <p>Designed &amp; developed by NUFAIL SHAIKH</p>
+          {/* <p>Designed &amp; developed by NUFAIL SHAIKH</p> */}
+          <p>
+  Designed &amp; developed by{" "}
+  <span className="font-bold text-accent">NUFAIL SHAIKH</span>
+</p>
         </div>
       </Container>
     </footer>
