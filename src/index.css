@@ -148,19 +148,27 @@ html {
 
 /* ================================
    Custom cursor
-   Applied globally (public + admin). Kept outside @layer for the same
-   reason as the scrollbar styles above — !important overrides and
-   fixed-position visual elements shouldn't be touched by Tailwind's
-   layer purging.
+   Applied dynamically when custom cursor is active on desktop (pointer: fine).
+   Scoped to #root so external extension popups, devtools, iframes, and widgets
+   outside #root retain their normal native cursor.
 ================================= */
 
-@media (hover: hover) and (pointer: fine), (hover: none) and (pointer: coarse) {
-  * {
+@media (hover: hover) and (pointer: fine) {
+  body.has-custom-cursor,
+  body.has-custom-cursor #root,
+  body.has-custom-cursor #root * {
     cursor: none !important;
+  }
+
+  /* Always allow iframes and elements opted out of custom cursor to show native cursor */
+  iframe,
+  [data-no-custom-cursor],
+  [data-no-custom-cursor] * {
+    cursor: auto !important;
   }
 }
 
-/* Prevent the mobile tap-highlight flash competing with the custom cursor */
+/* Prevent the mobile tap-highlight flash */
 * {
   -webkit-tap-highlight-color: transparent;
 }
@@ -174,8 +182,9 @@ html {
   background: var(--color-accent);
   border-radius: 50%;
   pointer-events: none;
-  z-index: 9999;
-  transition: transform 0.1s ease-out, opacity 0.2s ease;
+  z-index: 2147483647;
+  transition: transform 0.08s ease-out, opacity 0.2s ease;
+  will-change: transform;
 }
 
 .custom-cursor-ring {
@@ -187,9 +196,10 @@ html {
   border: 1.5px solid var(--color-accent);
   border-radius: 50%;
   pointer-events: none;
-  z-index: 9998;
-  transition: transform 0.25s ease-out, opacity 0.2s ease, width 0.2s ease;
+  z-index: 2147483646;
+  transition: transform 0.2s ease-out, opacity 0.2s ease, width 0.2s ease, height 0.2s ease;
   background: color-mix(in srgb, var(--color-accent) 8%, transparent);
+  will-change: transform;
 }
 
 /* ================================

@@ -1,89 +1,118 @@
 import { useEffect, useState } from "react";
 
 const CustomCursor = () => {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [position, setPosition] = useState({ x: -100, y: -100 });
   const [isHovering, setIsHovering] = useState(false);
   const [isClicking, setIsClicking] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [isFinePointer, setIsFinePointer] = useState(() => {
+    if (typeof window !== "undefined" && window.matchMedia) {
+      return window.matchMedia("(pointer: fine)").matches;
+    }
+    return true;
+  });
 
   useEffect(() => {
-    const checkInteractive = (target) =>
-      !!target.closest(
-        "a, button, [role='button'], input, textarea, select, .cursor-pointer",
-      );
+    if (typeof window === "undefined" || !window.matchMedia) return;
 
-    // ---- Mouse events ----
+    const mediaQuery = window.matchMedia("(pointer: fine)");
+    const handleMediaChange = (e) => {
+      setIsFinePointer(e.matches);
+    };
+
+    if (mediaQuery.addEventListener) {
+      mediaQuery.addEventListener("change", handleMediaChange);
+    } else {
+      mediaQuery.addListener(handleMediaChange);
+    }
+
+    return () => {
+      if (mediaQuery.removeEventListener) {
+        mediaQuery.removeEventListener("change", handleMediaChange);
+      } else {
+        mediaQuery.removeListener(handleMediaChange);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!isFinePointer) {
+      document.body.classList.remove("has-custom-cursor");
+      return;
+    }
+
+    const checkInteractive = (target) => {
+      if (!target || typeof target.closest !== "function") return false;
+      return !!target.closest(
+        "a, button, [role='button'], input, textarea, select, .cursor-pointer, [data-cursor-interactive]"
+      );
+    };
+
     const moveCursor = (e) => {
       setPosition({ x: e.clientX, y: e.clientY });
-      if (!isVisible) setIsVisible(true);
+
+      // Check if cursor is over the portfolio app vs external popups / extension overlays
+      const rootEl = document.getElementById("root");
+      const isOverExternalPopup =
+        (rootEl && !rootEl.contains(e.target)) ||
+        e.target?.tagName === "IFRAME" ||
+        e.target?.closest?.("[data-no-custom-cursor]");
+
+      if (isOverExternalPopup) {
+        setIsVisible(false);
+        document.body.classList.remove("has-custom-cursor");
+      } else {
+        setIsVisible(true);
+        document.body.classList.add("has-custom-cursor");
+      }
+
+      setIsHovering(checkInteractive(e.target));
     };
 
     const handleMouseDown = () => setIsClicking(true);
     const handleMouseUp = () => setIsClicking(false);
-    const handleMouseLeave = () => setIsVisible(false);
 
-    const handleMouseOver = (e) => {
-      setIsHovering(checkInteractive(e.target));
+    const handleMouseLeave = () => {
+      setIsVisible(false);
+      document.body.classList.remove("has-custom-cursor");
     };
 
-    // ---- Touch events ----
-    const handleTouchStart = (e) => {
-      const touch = e.touches[0];
-      if (!touch) return;
-      setPosition({ x: touch.clientX, y: touch.clientY });
+    const handleMouseEnter = () => {
       setIsVisible(true);
-      setIsClicking(true);
-      setIsHovering(checkInteractive(e.target));
+      document.body.classList.add("has-custom-cursor");
     };
 
-    const handleTouchMove = (e) => {
-      const touch = e.touches[0];
-      if (!touch) return;
-      setPosition({ x: touch.clientX, y: touch.clientY });
-
-      // Re-check what's under the finger as it moves
-      const el = document.elementFromPoint(touch.clientX, touch.clientY);
-      if (el) setIsHovering(checkInteractive(el));
+    const handleBlur = () => {
+      setIsVisible(false);
+      document.body.classList.remove("has-custom-cursor");
     };
 
-    const handleTouchEnd = () => {
-      setIsClicking(false);
-      setIsHovering(false);
-      // Let the dot/ring linger briefly, then fade out
-      setTimeout(() => setIsVisible(false), 300);
-    };
-
-    window.addEventListener("mousemove", moveCursor);
+    window.addEventListener("mousemove", moveCursor, { passive: true });
     window.addEventListener("mousedown", handleMouseDown);
     window.addEventListener("mouseup", handleMouseUp);
-    window.addEventListener("mouseover", handleMouseOver);
     document.addEventListener("mouseleave", handleMouseLeave);
-
-    window.addEventListener("touchstart", handleTouchStart, { passive: true });
-    window.addEventListener("touchmove", handleTouchMove, { passive: true });
-    window.addEventListener("touchend", handleTouchEnd);
-    window.addEventListener("touchcancel", handleTouchEnd);
+    document.addEventListener("mouseenter", handleMouseEnter);
+    window.addEventListener("blur", handleBlur);
 
     return () => {
       window.removeEventListener("mousemove", moveCursor);
       window.removeEventListener("mousedown", handleMouseDown);
       window.removeEventListener("mouseup", handleMouseUp);
-      window.removeEventListener("mouseover", handleMouseOver);
       document.removeEventListener("mouseleave", handleMouseLeave);
-
-      window.removeEventListener("touchstart", handleTouchStart);
-      window.removeEventListener("touchmove", handleTouchMove);
-      window.removeEventListener("touchend", handleTouchEnd);
-      window.removeEventListener("touchcancel", handleTouchEnd);
+      document.removeEventListener("mouseenter", handleMouseEnter);
+      window.removeEventListener("blur", handleBlur);
+      document.body.classList.remove("has-custom-cursor");
     };
-  }, [isVisible]);
+  }, [isFinePointer]);
+
+  if (!isFinePointer) return null;
 
   return (
     <>
       <div
         className="custom-cursor-dot"
         style={{
-          transform: `translate(${position.x}px, ${position.y}px) translate(-50%, -50%) scale(${
+          transform: `translate3d(${position.x}px, ${position.y}px, 0) translate(-50%, -50%) scale(${
             isClicking ? 0.7 : 1
           })`,
           opacity: isVisible ? 1 : 0,
@@ -92,7 +121,7 @@ const CustomCursor = () => {
       <div
         className="custom-cursor-ring"
         style={{
-          transform: `translate(${position.x}px, ${position.y}px) translate(-50%, -50%) scale(${
+          transform: `translate3d(${position.x}px, ${position.y}px, 0) translate(-50%, -50%) scale(${
             isHovering ? 1.8 : 1
           })`,
           opacity: isVisible ? 1 : 0,
