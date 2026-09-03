@@ -1,70 +1,75 @@
-import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
-import Container from '../../ui/layout-primitives/Container'
-import SkillTag from '../../ui/tags/SkillTag'
-import { fetchSkills } from '../../../lib/api/skillsService'
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import Container from "../../ui/layout-primitives/Container";
+import SkillTag from "../../ui/tags/SkillTag";
+import { fetchSkills } from "../../../lib/api/skillsService";
 
 const lineGrow = {
   hidden: { scaleX: 0 },
-  show: { scaleX: 1, transition: { duration: 0.6, ease: 'easeOut' } },
-}
+  show: { scaleX: 1, transition: { duration: 0.6, ease: "easeOut" } },
+};
 
 const fadeX = {
   hidden: { opacity: 0, x: -10 },
-  show: { opacity: 1, x: 0, transition: { duration: 0.4, ease: 'easeOut' } },
-}
+  show: { opacity: 1, x: 0, transition: { duration: 0.4, ease: "easeOut" } },
+};
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
-}
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
+};
 
 const markerPop = {
   hidden: { opacity: 0, y: 10, scale: 0.9 },
-  show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5, ease: 'easeOut' } },
-}
+  show: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.5, ease: "easeOut" },
+  },
+};
 
 const headerContainer = {
   hidden: {},
   show: {
     transition: { staggerChildren: 0.12, delayChildren: 0.1 },
   },
-}
+};
 
 const cardContainer = {
   hidden: {},
   show: {
     transition: { staggerChildren: 0.15 },
   },
-}
+};
 
 const Skills = () => {
-  const [categories, setCategories] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
-  const [activeCategory, setActiveCategory] = useState(null)
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [activeCategory, setActiveCategory] = useState(null);
 
   useEffect(() => {
     const loadSkills = async () => {
       try {
-        const data = await fetchSkills()
-        setCategories(data)
+        const data = await fetchSkills();
+        setCategories(data);
         if (data.length > 0) {
-          setActiveCategory(data[0].title)
+          setActiveCategory(data[0].title);
         }
       } catch (err) {
-        setError('Failed to load skills.')
+        setError("Failed to load skills.");
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
+    };
 
-    loadSkills()
-  }, [])
+    loadSkills();
+  }, []);
 
   const activeCategoryData = categories.find(
-    (category) => category.title === activeCategory
-  )
+    (category) => category.title === activeCategory,
+  );
 
   return (
     <section id="skills" className="py-16 md:px-8 md:py-20 lg:px-12">
@@ -79,7 +84,7 @@ const Skills = () => {
           <div className="mb-6 flex items-center gap-3">
             <motion.span
               variants={lineGrow}
-              style={{ transformOrigin: 'left' }}
+              style={{ transformOrigin: "left" }}
               className="h-px w-8 bg-accent"
             />
             <motion.span
@@ -98,12 +103,12 @@ const Skills = () => {
             MY <span className="text-outline">SKILLS</span>
           </motion.h2> */}
           <motion.h2
-  variants={fadeUp}
-  className="font-display text-6xl leading-[1.05] tracking-tight md:text-7xl md:leading-[0.85]"
->
-  MY <span className="text-outline">SKILLS</span>
-  <span className="sr-only"> — Developer Skills</span>
-</motion.h2>
+            variants={fadeUp}
+            className="font-display text-6xl leading-[1.05] tracking-tight md:text-7xl md:leading-[0.85]"
+          >
+            MY <span className="text-outline">SKILLS</span>
+            <span className="sr-only"> — Developer Skills</span>
+          </motion.h2>
 
           {/* Center marker: pulsing dot + "MY SKILLS" badge */}
           <div className="mt-16 flex flex-col items-center gap-8">
@@ -141,20 +146,20 @@ const Skills = () => {
             <div className="mt-16 flex justify-center md:hidden">
               <div className="flex items-center gap-1 overflow-x-auto rounded-lg border border-border p-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                 {categories.map((category) => {
-                  const isActive = activeCategory === category.title
+                  const isActive = activeCategory === category.title;
                   return (
                     <button
                       key={category.title}
                       onClick={() => setActiveCategory(category.title)}
                       className={`shrink-0 whitespace-nowrap rounded-md px-4 py-2 font-mono text-xs tracking-widest transition-colors ${
                         isActive
-                          ? 'bg-white text-black'
-                          : 'text-text-muted hover:text-text-primary'
+                          ? "bg-black text-white"
+                          : "text-text-muted hover:text-text-primary"
                       }`}
                     >
                       {category.title.toUpperCase()}
                     </button>
-                  )
+                  );
                 })}
               </div>
             </div>
@@ -164,7 +169,7 @@ const Skills = () => {
                 key={activeCategoryData.title}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, ease: 'easeOut' }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
                 className="mt-8 flex flex-wrap justify-center gap-3 md:hidden"
               >
                 {activeCategoryData.skills.map((skill) => (
@@ -199,7 +204,7 @@ const Skills = () => {
         )}
       </Container>
     </section>
-  )
-}
+  );
+};
 
-export default Skills
+export default Skills;

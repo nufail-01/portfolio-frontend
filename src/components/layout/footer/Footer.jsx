@@ -176,22 +176,28 @@ const Footer = () => {
             </div>
           </motion.div> */}
           {/* Proficient With */}
-<motion.div variants={fadeUp}>
-  <p className="font-mono text-xs tracking-widest text-text-muted">
-    WHAT I'M IN LOVE WITH
-  </p>
+          <motion.div variants={fadeUp}>
+            <p className="font-mono text-xs tracking-widest text-text-muted">
+              WHAT I'M IN LOVE WITH
+            </p>
 
-  <div className="mt-6 grid grid-cols-4 gap-x-4 gap-y-6">
-    {PROFICIENT_WITH.map((tech) => (
-      <div key={tech.name} className="flex flex-col items-center gap-2">
-        <Icon3D src={tech.icon} alt={tech.name} size={48} />
-        <span className="font-mono text-[10px] text-text-muted">
-          {tech.name}
-        </span>
-      </div>
-    ))}
-  </div>
-</motion.div>
+            <div className="mt-6 grid grid-cols-4 gap-x-4 gap-y-6">
+              {PROFICIENT_WITH.map((tech) => (
+                <div
+                  key={tech.name}
+                  className="flex flex-col items-center gap-2"
+                >
+                  <Icon3D src={tech.icon} alt={tech.name} size={48} />
+                  {/* <span className="font-mono text-[10px] text-text-muted">
+                    {tech.name}
+                  </span> */}
+                  <span className="font-mono text-[10px] text-text-muted select-none whitespace-nowrap">
+  {tech.name}
+</span>
+                </div>
+              ))}
+            </div>
+          </motion.div>
         </motion.div>
 
         {/* Back to top (mobile only) */}
@@ -251,9 +257,9 @@ const Footer = () => {
 
           {/* <p>Designed &amp; developed by NUFAIL SHAIKH</p> */}
           <p>
-  Designed &amp; developed by{" "}
-  <span className="font-bold text-accent">NUFAIL SHAIKH</span>
-</p>
+            Designed &amp; developed by{" "}
+            <span className="font-bold text-accent">NUFAIL SHAIKH</span>
+          </p>
         </div>
       </Container>
     </footer>
@@ -261,3 +267,5 @@ const Footer = () => {
 };
 
 export default Footer;
+
+

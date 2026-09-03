@@ -86,7 +86,7 @@ const ProjectCard = ({ project }) => {
             }}
             className="inline-block"
           >
-            ↗
+            
           </motion.span>
         </a>
       </div>
