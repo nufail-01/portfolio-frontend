@@ -80,11 +80,18 @@ const Experience = () => {
               </motion.span>
             </div>
 
+            {/* <motion.h2
+              variants={fadeUp}
+              className="font-display text-6xl leading-[1.05] tracking-tight md:text-7xl md:leading-[0.85]"
+            >
+              EXPERIENCE &amp; <span className="text-outline">EDUCATION</span>
+            </motion.h2> */}
             <motion.h2
               variants={fadeUp}
               className="font-display text-6xl leading-[1.05] tracking-tight md:text-7xl md:leading-[0.85]"
             >
               EXPERIENCE &amp; <span className="text-outline">EDUCATION</span>
+              <span className="sr-only"> — Developer Experience</span>
             </motion.h2>
           </div>
 

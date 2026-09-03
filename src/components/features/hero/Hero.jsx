@@ -237,24 +237,28 @@ const Hero = () => {
 
           {/* Name — magnetic on hover */}
           <Magnetic strength={0.2} max={16}>
-  <div className="relative mt-8">
+            <div className="relative mt-8">
               <div>
+                {/* First name + SEO-relevant H1 */}
                 <div className="overflow-hidden py-2 -my-2">
                   <motion.h1
                     variants={nameLine}
                     className="font-display text-7xl leading-[0.85] tracking-tight md:text-8xl lg:text-9xl"
                   >
                     NUFAIL
+                    <span className="sr-only"> — Developer Portfolio</span>
                   </motion.h1>
                 </div>
+
                 <br />
+
+                {/* Last name */}
                 <div className="overflow-hidden py-2 -my-2">
-                  <motion.h1
-                    variants={nameLine}
+                  <div
                     className="font-display text-outline text-7xl leading-[0.85] tracking-tight md:text-8xl lg:text-9xl"
                   >
                     SHAIKH
-                  </motion.h1>
+                  </div>
                 </div>
               </div>
             </div>
@@ -269,7 +273,7 @@ const Hero = () => {
 
           {/* Tagline + CTA */}
           <div className="mt-10 flex flex-col items-start justify-between gap-10 lg:flex-row lg:items-end">
-            <motion.p
+            {/* <motion.p
               variants={fadeUp}
               className="max-w-xl font-body text-lg text-text-muted md:text-xl"
             >
@@ -282,11 +286,33 @@ const Hero = () => {
                 fast, scalable, and polished products
               </span>{" "}
               that go beyond the prototype.
-            </motion.p>
+            </motion.p> */}
+            <motion.p
+  variants={fadeUp}
+  className="max-w-xl font-body text-lg text-text-muted md:text-xl"
+>
+  Building{" "}
+  <span className="font-semibold text-text-primary">
+    production-grade web experiences
+  </span>{" "}
+  as a{" "}
+  <span className="font-semibold text-text-primary">
+    full-stack web developer
+  </span>{" "}
+  with modern tech — creating{" "}
+  <span className="font-semibold text-text-primary">
+    fast, scalable, and polished products
+  </span>{" "}
+  for my{" "}
+  <span className="font-semibold text-text-primary">
+    developer portfolio
+  </span>{" "}
+  that go beyond the prototype.
+</motion.p>
 
             <motion.div variants={fadeUp}>
               <Button href="#projects" variant="brutalist">
-                View Work 
+                View Work
               </Button>
             </motion.div>
           </div>

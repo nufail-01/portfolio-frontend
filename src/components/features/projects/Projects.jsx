@@ -79,12 +79,19 @@ const Projects = () => {
               </motion.p>
             </div>
 
-            <motion.h2
+            {/* <motion.h2
               variants={fadeUp}
               className="font-display text-6xl leading-[1.05] tracking-tight md:text-7xl md:leading-[0.85]"
             >
               FEATURED <span className="text-outline">PROJECTS</span>
-            </motion.h2>
+            </motion.h2> */}
+            <motion.h2
+  variants={fadeUp}
+  className="font-display text-6xl leading-[1.05] tracking-tight md:text-7xl md:leading-[0.85]"
+>
+  FEATURED <span className="text-outline">PROJECTS</span>
+  <span className="sr-only"> — Developer Portfolio Projects</span>
+</motion.h2>
           </div>
 
           <motion.div variants={fadeUp}>

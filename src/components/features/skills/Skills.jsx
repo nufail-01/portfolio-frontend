@@ -91,12 +91,19 @@ const Skills = () => {
           </div>
 
           {/* Heading */}
-          <motion.h2
+          {/* <motion.h2
             variants={fadeUp}
             className="font-display text-6xl leading-[1.05] tracking-tight md:text-7xl md:leading-[0.85]"
           >
             MY <span className="text-outline">SKILLS</span>
-          </motion.h2>
+          </motion.h2> */}
+          <motion.h2
+  variants={fadeUp}
+  className="font-display text-6xl leading-[1.05] tracking-tight md:text-7xl md:leading-[0.85]"
+>
+  MY <span className="text-outline">SKILLS</span>
+  <span className="sr-only"> — Developer Skills</span>
+</motion.h2>
 
           {/* Center marker: pulsing dot + "MY SKILLS" badge */}
           <div className="mt-16 flex flex-col items-center gap-8">

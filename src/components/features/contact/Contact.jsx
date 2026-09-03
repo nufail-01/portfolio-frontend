@@ -99,10 +99,18 @@ const Contact = () => {
 
           <br />
 
-          <span className="text-outline">
+          {/* <span className="text-outline">
             THE NEXT LEVEL?
           </span>
-        </motion.h2>
+        </motion.h2> */}
+        <span className="text-outline">
+  THE NEXT LEVEL?
+</span>
+
+<span className="sr-only">
+  — Contact a Full-Stack Web Developer
+</span>
+</motion.h2>
 
         {/* Tagline + email */}
         <motion.div

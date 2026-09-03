@@ -61,12 +61,19 @@ const About = () => {
             </motion.p>
           </div>
 
-          <motion.h2
+          {/* <motion.h2
             variants={fadeUp}
             className="font-display text-6xl leading-[0.85] tracking-tight md:text-7xl"
           >
             WHO I <span className="text-outline">AM</span>
-          </motion.h2>
+          </motion.h2> */}
+          <motion.h2
+  variants={fadeUp}
+  className="font-display text-6xl leading-[0.85] tracking-tight md:text-7xl"
+>
+  WHO I <span className="text-outline">AM</span>
+  <span className="sr-only"> — About a Full-Stack Web Developer</span>
+</motion.h2>
         </motion.div>
 
         {/* Content grid */}
