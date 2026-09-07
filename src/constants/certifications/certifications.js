@@ -7,6 +7,13 @@ export const CERTIFICATIONS = [
   },
 
   {
+    id: "ai-masterclass",
+    title: "AI Masterclass 2.0",
+    image: "/certifications/ai-masterclass.jpg",
+    credentialUrl: "#",
+  },
+
+  {
     id: "cohort-1",
     title: "Cohort 1 Certificate",
     image: "/certifications/cohort-1.jpg",
