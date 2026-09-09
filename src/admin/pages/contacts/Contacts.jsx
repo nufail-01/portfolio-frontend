@@ -1,57 +1,57 @@
-import { useEffect, useState } from 'react'
-import { getContacts, deleteContact } from '../../lib/contacts/contactService'
+import { useEffect, useState } from "react";
+import { getContacts, deleteContact } from "../../lib/contacts/contactService";
 
 const formatDate = (isoString) => {
-  const date = new Date(isoString)
-  return date.toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  })
-}
+  const date = new Date(isoString);
+  return date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+};
 
 const formatTime = (isoString) => {
-  const date = new Date(isoString)
-  return date.toLocaleTimeString('en-US', {
-    hour: 'numeric',
-    minute: '2-digit',
+  const date = new Date(isoString);
+  return date.toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
     hour12: true,
-  })
-}
+  });
+};
 
 const Contacts = () => {
-  const [contacts, setContacts] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
+  const [contacts, setContacts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   const loadContacts = async () => {
     try {
-      setLoading(true)
-      setError('')
-      const data = await getContacts()
-      setContacts(data)
+      setLoading(true);
+      setError("");
+      const data = await getContacts();
+      setContacts(data);
     } catch (error) {
-      setError(error.message || 'Unable to load contacts')
+      setError(error.message || "Unable to load contacts");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   useEffect(() => {
-    loadContacts()
-  }, [])
+    loadContacts();
+  }, []);
 
   const handleDelete = async (id) => {
-    const confirmed = window.confirm('Delete this message?')
-    if (!confirmed) return
+    const confirmed = window.confirm("Delete this message?");
+    if (!confirmed) return;
 
     try {
-      await deleteContact(id)
-      setContacts((current) => current.filter((c) => c._id !== id))
+      await deleteContact(id);
+      setContacts((current) => current.filter((c) => c._id !== id));
     } catch (error) {
-      alert(error.message || 'Unable to delete contact')
+      alert(error.message || "Unable to delete contact");
     }
-  }
+  };
 
   return (
     <div className="mx-auto max-w-7xl">
@@ -107,13 +107,19 @@ const Contacts = () => {
             <tbody className="divide-y divide-border">
               {loading ? (
                 <tr>
-                  <td colSpan="6" className="px-6 py-12 text-center font-mono text-sm text-text-muted">
+                  <td
+                    colSpan="6"
+                    className="px-6 py-12 text-center font-mono text-sm text-text-muted"
+                  >
                     Loading messages...
                   </td>
                 </tr>
               ) : contacts.length === 0 ? (
                 <tr>
-                  <td colSpan="6" className="px-6 py-16 text-center font-mono text-sm text-text-muted">
+                  <td
+                    colSpan="6"
+                    className="px-6 py-16 text-center font-mono text-sm text-text-muted"
+                  >
                     <div className="flex flex-col items-center gap-4">
                       <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-accent/10 text-accent">
                         <svg
@@ -141,13 +147,19 @@ const Contacts = () => {
                 </tr>
               ) : (
                 contacts.map((contact) => (
-                  <tr key={contact._id} className="transition-colors duration-200 hover:bg-bg/50">
+                  <tr
+                    key={contact._id}
+                    className="transition-colors duration-200 hover:bg-bg/50"
+                  >
                     <td className="px-6 py-5 text-sm font-medium text-text-primary">
                       {contact.name}
                     </td>
 
                     <td className="px-6 py-5 text-sm text-text-muted">
-                      <a href={`mailto:${contact.email}`} className="hover:text-accent">
+                      <a
+                        href={`mailto:${contact.email}`}
+                        className="hover:text-accent"
+                      >
                         {contact.email}
                       </a>
                     </td>
@@ -182,7 +194,7 @@ const Contacts = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Contacts
+export default Contacts;

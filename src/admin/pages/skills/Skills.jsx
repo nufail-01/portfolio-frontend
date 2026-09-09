@@ -1,99 +1,100 @@
-import { useEffect, useState, useMemo } from 'react'
+import { useEffect, useState, useMemo } from "react";
 import {
   getSkills,
   createSkill,
   updateSkill,
   deleteSkill,
-} from '../../lib/skills/skillService'
-import Modal from '../../components/ui/Modal'
-import SkillForm from '../../components/skills/SkillForm'
+} from "../../lib/skills/skillService";
+import Modal from "../../components/ui/Modal";
+import SkillForm from "../../components/skills/SkillForm";
 
 const Skills = () => {
-  const [skills, setSkills] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
+  const [skills, setSkills] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-  const [modalOpen, setModalOpen] = useState(false)
-  const [editingSkill, setEditingSkill] = useState(null)
-  const [submitting, setSubmitting] = useState(false)
+  const [modalOpen, setModalOpen] = useState(false);
+  const [editingSkill, setEditingSkill] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
 
   const loadSkills = async () => {
     try {
-      setLoading(true)
-      setError('')
-      const data = await getSkills()
-      setSkills(data)
+      setLoading(true);
+      setError("");
+      const data = await getSkills();
+      setSkills(data);
     } catch (error) {
-      setError(error.message || 'Unable to load skills')
+      setError(error.message || "Unable to load skills");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   useEffect(() => {
-    loadSkills()
-  }, [])
+    loadSkills();
+  }, []);
 
   const grouped = useMemo(() => {
-    const map = {}
+    const map = {};
     skills.forEach((skill) => {
-      if (!map[skill.category]) map[skill.category] = []
-      map[skill.category].push(skill)
-    })
-    return map
-  }, [skills])
+      if (!map[skill.category]) map[skill.category] = [];
+      map[skill.category].push(skill);
+    });
+    return map;
+  }, [skills]);
 
   const handleDelete = async (id) => {
-    const confirmed = window.confirm('Delete this skill?')
-    if (!confirmed) return
+    const confirmed = window.confirm("Delete this skill?");
+    if (!confirmed) return;
 
     try {
-      await deleteSkill(id)
-      setSkills((current) => current.filter((s) => s._id !== id))
+      await deleteSkill(id);
+      setSkills((current) => current.filter((s) => s._id !== id));
     } catch (error) {
-      alert(error.message || 'Unable to delete skill')
+      alert(error.message || "Unable to delete skill");
     }
-  }
+  };
 
   const openAddModal = () => {
-    setEditingSkill(null)
-    setModalOpen(true)
-  }
+    setEditingSkill(null);
+    setModalOpen(true);
+  };
 
   const openEditModal = (skill) => {
-    setEditingSkill(skill)
-    setModalOpen(true)
-  }
+    setEditingSkill(skill);
+    setModalOpen(true);
+  };
 
   const closeModal = () => {
-    setModalOpen(false)
-    setEditingSkill(null)
-  }
+    setModalOpen(false);
+    setEditingSkill(null);
+  };
 
   const handleFormSubmit = async (formData) => {
     try {
-      setSubmitting(true)
+      setSubmitting(true);
 
       if (editingSkill) {
-        await updateSkill(editingSkill._id, formData)
+        await updateSkill(editingSkill._id, formData);
       } else {
-        await createSkill(formData)
+        await createSkill(formData);
       }
 
-      closeModal()
-      await loadSkills()
+      closeModal();
+      await loadSkills();
     } catch (error) {
-      alert(error.message || 'Unable to save skill')
+      alert(error.message || "Unable to save skill");
     } finally {
-      setSubmitting(false)
+      setSubmitting(false);
     }
-  }
+  };
 
   return (
     <div className="mx-auto max-w-7xl">
       <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <p className="font-mono text-sm font-medium text-accent">
+          <p className="mb-1 flex items-center gap-2 font-mono text-sm font-medium text-accent">
+            <span className="h-1.5 w-1.5 rounded-full bg-accent" />
             Portfolio
           </p>
           <h1 className="mt-1 font-display text-3xl font-bold text-text-primary">
@@ -105,7 +106,7 @@ const Skills = () => {
         </div>
 
         <button
-          className="rounded-xl bg-accent px-5 py-3 text-sm font-mono font-semibold text-bg transition hover:bg-accent/90"
+          className="inline-flex items-center gap-2 rounded-full bg-accent px-5 py-3 text-sm font-mono font-semibold text-bg shadow-[0_0_20px_-6px_var(--color-accent)] transition hover:-translate-y-0.5 hover:bg-accent/90"
           onClick={openAddModal}
         >
           + Add Skill
@@ -165,7 +166,7 @@ const Skills = () => {
 
       {modalOpen && (
         <Modal
-          title={editingSkill ? 'Edit Skill' : 'Add Skill'}
+          title={editingSkill ? "Edit Skill" : "Add Skill"}
           onClose={closeModal}
         >
           <SkillForm
@@ -177,7 +178,7 @@ const Skills = () => {
         </Modal>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default Skills
+export default Skills;
