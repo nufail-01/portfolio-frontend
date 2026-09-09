@@ -151,9 +151,14 @@ const Skills = () => {
                     <button
                       key={category.title}
                       onClick={() => setActiveCategory(category.title)}
+                      // className={`shrink-0 whitespace-nowrap rounded-md px-4 py-2 font-mono text-xs tracking-widest transition-colors ${
+                      //   isActive
+                      //     ? "bg-black text-white"
+                      //     : "text-text-muted hover:text-text-primary"
+                      // }`}
                       className={`shrink-0 whitespace-nowrap rounded-md px-4 py-2 font-mono text-xs tracking-widest transition-colors ${
                         isActive
-                          ? "bg-black text-white"
+                          ? "bg-text-primary text-bg"
                           : "text-text-muted hover:text-text-primary"
                       }`}
                     >
